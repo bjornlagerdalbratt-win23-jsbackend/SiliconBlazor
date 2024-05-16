@@ -1,0 +1,162 @@
+.dashboard {
+    padding-block: 8rem;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .dashboard-img {
+            width: 70%;
+        }
+
+        .content {
+
+
+            h1 {
+                @include h2;
+                margin-bottom: 1.5rem;
+            }
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                list-style-type: none;
+                margin-bottom: 1.8rem;
+                padding: 1rem;
+
+                li {
+                    @include text-m;
+                    color: gray-700;
+
+                    i {
+                        color: $theme;
+                        margin-right: 0.8rem;
+                    }
+                }
+            }
+
+            a {
+                margin: 0 auto;
+            }
+        }
+
+        .learn-more {
+            margin-top: 2rem;
+            justify-content: center;
+        }
+    }
+}
+
+@media (min-width: 756px) {
+    .dashboard {
+
+        .container {
+            flex-direction: row;
+            gap: 1rem;
+
+            .dashboard-img {
+                width: 60%;
+            }
+
+            .content {
+                flex-direction: column;
+
+                h1 {
+                    @include h2;
+                    margin-bottom: 3rem;
+                }
+
+                ul {
+                    display: flex;
+                    gap: 1rem;
+
+                    li {
+                        @include text-m;
+                        color: gray-700;
+
+                        i {
+                            color: $theme;
+                        }
+                    }
+                }
+            }
+
+            .learn-more {
+                margin-top: 2rem;
+                padding: 0.8rem;
+                width: 60%;
+            }
+        }
+    }
+    }
+
+@media (min-width: 992px) {
+    .dashboard {
+
+        .container {
+            gap: 3.7rem;
+
+
+            .dashboard-img {
+                width: 62%;
+            }
+
+            .content {
+
+
+                h1 {
+                    margin-bottom: 0;
+                }
+
+                ul {
+                    padding: 0;
+                }
+
+                a {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .dashboard {
+
+        .container {
+            gap: 7rem;
+
+            .dashboard-img {
+                width: 57.2%;
+            }
+
+            .content {
+
+
+                h1 {
+                    margin-bottom: 3rem;
+                }
+
+                ul {
+                    padding: 0;
+                    margin-bottom: 3rem;
+                }
+
+                a {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .dashboard-img {
+        width: 34%;
+    }
+
+ }

@@ -1,0 +1,99 @@
+.program {
+    .program-details {
+        max-width: 556px;
+        margin: 0 auto;
+        text-align: center;
+
+        .content {
+            h2 {
+                margin-bottom: 1rem;
+            }
+
+            .item {
+                display: grid;
+                grid-template-rows: auto 1fr;
+                grid-template-columns: auto;
+                grid-template-areas: "number" "title" "number" "text";
+                gap: 2rem;
+
+                .number {
+                    margin-top: 3rem;
+
+
+                    .list-number {
+                        color: $black;
+                        font-size: 1.8rem;
+                        border: 10px solid #F3F6FF;
+                        border-radius: 6rem;
+                        padding-inline: 1.5rem;
+                        grid-area: number;
+                    }
+
+                    i {
+                    }
+                }
+
+                .item-content {
+                    h4 {
+                        grid-area: title;
+                    }
+
+                    p {
+                        grid-area: text;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media(min-width: 768px) {
+    .program {
+        .program-details {
+            text-align: left;
+
+            .content {
+                h2 {
+                    margin-bottom: 1rem;
+                }
+
+                .item {
+                    display: grid;
+                    grid-template-rows: auto 1fr;
+                    grid-template-columns: auto;
+                    grid-template-areas: "number title" "number text";
+                    gap: 2rem;
+
+                    .number {
+                        margin-top: 3rem;
+
+
+                        .list-number {
+                            color: $black;
+                            font-size: 1.8rem;
+                            border: 10px solid #F3F6FF;
+                            border-radius: 6rem;
+                            padding-inline: 1.5rem;
+                            grid-area: number;
+                        }
+
+                        i {
+                        }
+                    }
+
+                    .item-content {
+                        h4 {
+                            grid-area: title;
+                        }
+
+                        p {
+                            grid-area: text;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

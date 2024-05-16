@@ -1,0 +1,114 @@
+.aside {
+    padding-inline: 4rem;
+
+    .course-includes {
+        grid-area: includes;
+        text-align: center;
+        border-radius: 5px;
+        padding: 1rem;
+        box-shadow: 4px 4px $gray-100;
+
+        .container {
+
+
+            h4 {
+                text-align: center;
+            }
+
+            .content {
+
+                .item {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 0.5rem;
+
+
+                    .item-icon {
+                        i {
+                        }
+                    }
+
+                    .item-content {
+                        p {
+                        }
+                    }
+                }
+            }
+
+            .pricing {
+                display: flex;
+                flex-direction: row;
+                gap: 0.5rem;
+
+                .discount {
+                }
+
+                .price {
+                }
+            }
+
+
+            button {
+
+            }
+        }
+    }
+}
+
+
+@media(min-width: 768px) {
+    .aside {
+        padding-inline: 9rem;
+
+        .course-includes {
+            grid-area: includes;
+            padding: 2rem 4rem 2rem 2rem;
+            text-align: left;
+            border-radius: 5px;
+            box-shadow: 4px 4px $gray-100;
+
+            .container {
+
+                h4 {
+                    text-align: left;
+                }
+
+                .content {
+
+                    .item {
+                        display: flex;
+                        flex-direction: row;
+                        gap: 0.5rem;
+
+                        .item-icon {
+                            i {
+                            }
+                        }
+
+                        .item-content {
+                            p {
+                            }
+                        }
+                    }
+
+
+                    .pricing {
+                        display: flex;
+                        flex-direction: row;
+
+                        .discount {
+                        }
+
+                        .price {
+                        }
+                    }
+
+
+                    button {
+                    }
+                }
+            }
+        }
+    }
+
+}

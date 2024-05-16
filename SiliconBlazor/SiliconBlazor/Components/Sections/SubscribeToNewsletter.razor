@@ -1,0 +1,136 @@
+﻿@rendermode InteractiveServer
+
+<section id="subscribe" class="subscribe">
+    <div class="container">
+        <div class="title">
+            <h2>Don't want to miss Anything?</h2>
+            <img src="/images/icons/arrow_curly.svg" alt="swirl arrow icon">
+        </div>
+
+        <EditForm FormName="subscribeform" Model="@SubscribeForm" OnValidSubmit="OnValidSubmit" method="post" novalidate>
+            <DataAnnotationsValidator />
+
+            <div class="alternative">
+                <h4>Sign up for Newsletters</h4>
+
+                <div class="options">
+                    <div class="checkbox-group">
+                        <div class="input-group" id="daily">
+                            <InputCheckbox @bind-Value="SubscribeForm.DailyNewsletter" />
+                            <label>Daily Newsletter</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="input-group" id="advertising">
+                            <InputCheckbox @bind-Value="SubscribeForm.AdvertisingUpdates" />
+                            <label>Advertising Updates</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="input-group" id="week">
+                            <InputCheckbox @bind-Value="SubscribeForm.WeekInReview" />
+                            <label>Week In Review</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="input-group" id="event">
+                            <InputCheckbox @bind-Value="SubscribeForm.EventUpdates" />
+                            <label>Event Updates</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="input-group" id="startup">
+                            <InputCheckbox @bind-Value="SubscribeForm.StartupsWeekly" />
+                            <label>Start Up</label>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <div class="input-group" id="podcasts">
+                            <InputCheckbox @bind-Value="SubscribeForm.Podcasts" />
+                            <label>Podcasts</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-email">
+                <div class="input-group">
+                    <div class="fieldButton">
+                        <i class="fa-regular fa-envelope"></i>
+                        <InputText type="email" @bind-Value="SubscribeForm.Email" id="email-subscriber" placeholder="Enter your email" required onkeyup="validateFormField(this)" />
+                        <button type="submit" class="btn btn-theme">Subscribe *</button>
+                    </div>
+                    <span id="email-error"></span>
+                </div>
+                <ValidationMessage For="@(() => SubscribeForm.Email)" class="error-message" />
+                <span class="status-message">@StatusMessage</span>
+            </div>
+        </EditForm>
+
+    </div>
+</section>
+@code {
+    [SupplyParameterFromQuery]
+    public string StatusMessage { get; set; } = "* Yes, I agree to the terms and privacy policy.";
+
+    //Skicka iväg användar-data till Backend genom en HTTP-request.
+
+    //....1
+    //Skapa en ny modell/klass av SubscriberRequest, eller subscriberformuläret egentligen...
+    //Denna modell innehåller egenskaper för att samla in data från subscriber-fälten
+    [SupplyParameterFromForm]
+    public SubscribeViewModel SubscribeForm { get; set; } = new SubscribeViewModel();
+
+    //....2
+    //Skapa en asyncron metod som hanterar en giltig inlämning av subscriber-formuläret.
+    //Metoden körs när användaren klickar på knappen för att skicka formuläret.
+
+    public async Task OnValidSubmit()
+    {
+        try
+        {
+            //....3
+            //Bygg kodblocket för att utföra en HTTP POST-förfrågan till backendtjänsten för att subscriba.
+            //Kodblocket ska byggas i en try/catch, där ev undantag fångas av 'catch'-blocket och loggar felet till konsolen.
+            //Gör en asynkron HTTP POST-förfrågan till NewsletterProviders URL från Björn, som innehåller subscriberdata från
+            //subscriber-objektet. Metoden 'Http.PostAsJsonAsync' används för att skicka data som JSON > backend.
+
+            var result = await Http.PostAsJsonAsync("https://silicon-newsletterprovider.azurewebsites.net/api/Subscribe?code=utt8Wl_-ivbaStUa0q17AABzlkG6vmGZuFkctqvlAdASAzFuq9T2mw==", SubscribeForm);
+
+            //....4
+            //Utvärdera svaret från backend
+            //Lyckad förfrågan innebär en HTTP-statuskod 2xx, skrivs ett succes-meddelande ut till konsolen
+            //Om konflikt eller annat fel skriv ut lämpligt meddelande.
+            if (result.IsSuccessStatusCode)
+            {
+                StatusMessage = "Thank you for subscribing!";
+
+            }
+            else
+            {
+                StatusMessage = $"Subscription failed. Are you already subscribed?";
+            }
+        }
+        //....5
+        //Om undantag sker vid HTTP POST-förfrågan eller vid hantering av svaret, fångas det upp i catch
+        //och loggas ut i konsolen.
+        catch (Exception ex)
+        {
+            //Nollställer formulär
+            SubscribeForm = new SubscribeViewModel();
+            StatusMessage = "An error occurred while subscribing. Please try again later.";
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
+
+        //Rensa formulär oavsett utgång, genom att tilldela nya tomma värden till SubscribeViewModel
+        SubscribeForm = new SubscribeViewModel();
+    }
+
+
+
+}

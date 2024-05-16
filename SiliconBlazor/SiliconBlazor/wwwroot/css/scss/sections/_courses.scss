@@ -1,0 +1,322 @@
+.courses {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+
+
+    .container {
+
+        h1 {
+        }
+
+        #form-filters {
+
+
+            select {
+            }
+
+            .input-search-group {
+                margin-bottom: 10px;
+                position: relative;
+
+                input {
+                    padding: 15px;
+                    width: 100%;
+                    margin-top: 10px;
+                }
+
+                i {
+                    position: absolute;
+                    bottom: 20px;
+                    right: 14px;
+                }
+            }
+        }
+
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .course-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+
+            .course {
+                position: relative;
+                display: block;
+                border-radius: 8px;
+                overflow: hidden;
+                text-decoration: none;
+
+                :hover {
+                    opacity: 0.85;
+                    transition: ease-in-out 0.5s;
+                    text-decoration: underline;
+                    box-shadow: 5px 4px 5px $gray-800;
+                }
+
+                .bestseller {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                    background-color: $success;
+                    color: white;
+                    padding: 4px 12px;
+                    border-radius: 4px;
+                }
+
+                .bookmark {
+                    position: absolute;
+                    background-color: white;
+                    border-radius: 2rem;
+                    top: 1rem;
+                    right: 1rem;
+                    z-index: 999;
+
+                    &:hover {
+                        background-color: $gray-700;
+                        color: white;
+                    }
+                }
+
+                img {
+                    width: 100%;
+                }
+
+                .content {
+                    padding: 1rem 2rem;
+
+                    .title {
+                        font-size: 20px;
+                    }
+
+                    .author {
+                        font-size: 14px;
+                        margin: 0.5rem 0;
+                    }
+
+                    .pricing {
+                        display: flex;
+                        gap: 1rem;
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+
+                    .discount-enabled {
+                        color: $gray-600;
+                        text-decoration: line-through;
+                        font-size: 18px;
+                        font-weight: 400;
+                    }
+                }
+
+                .footer {
+                    color: $gray-600;
+                    border-top: 1px solid $gray-400;
+                    display: flex;
+                    gap: 2rem;
+                    margin-top: 1rem;
+                    padding-top: 1rem;
+
+                    .hours {
+                        i {
+                            margin-right: 5px;
+                        }
+                    }
+
+                    .likes {
+                        i {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 5rem;
+
+    .pag-item {
+        padding-inline: 15px;
+        padding-block: 7px;
+        text-decoration: none;
+        border-radius: 5px;
+        color: $gray-800;
+
+
+        &:hover {
+            background: $gray-200;
+            text-decoration: underline;
+        }
+
+        &:active {
+            background: $gray-600;
+            color: $gray-100;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    #form-filters {
+
+
+        select {
+        }
+
+        .input-search-group {
+            
+
+            input {
+                padding: 15px;
+                width: 50%;
+                margin-top: 10px;
+            }
+        }
+    }
+    }
+
+    @media (min-width: 1200px) {
+        .courses {
+            padding-top: 3rem;
+            padding-bottom: 5rem;
+
+            .container {
+
+                #form-filters {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    gap: 1.5rem;
+
+                    .input-search-group {
+                        margin-bottom: 10px;
+
+                        input {
+                            padding: 15px;
+                        }
+                    }
+                }
+
+
+                .header {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                }
+
+                .course-items {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 2rem;
+
+                    .course {
+                        position: relative;
+                        display: block;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        text-decoration: none;
+
+                        :hover {
+                            opacity: 0.85;
+                            transition: ease-in-out 0.5s;
+                            text-decoration: underline;
+                            box-shadow: 5px 4px 5px $gray-800;
+                        }
+
+                        .bestseller {
+                            position: absolute;
+                            top: 1rem;
+                            left: 1rem;
+                            background-color: $success;
+                            color: white;
+                            padding: 4px 12px;
+                            border-radius: 4px;
+                        }
+
+                        .bookmark {
+                            position: absolute;
+                            background-color: white;
+                            border-radius: 2rem;
+                            top: 1rem;
+                            right: 1rem;
+                            z-index: 999;
+
+                            &:hover {
+                                background-color: $gray-700;
+                                color: white;
+                            }
+                        }
+
+                        img {
+                            width: 100%;
+                        }
+
+                        .content {
+                            padding: 1rem 2rem;
+
+                            .title {
+                                font-size: 20px;
+                            }
+
+                            .author {
+                                font-size: 14px;
+                                margin: 0.5rem 0;
+                            }
+
+                            .pricing {
+                                display: flex;
+                                gap: 1rem;
+                                font-size: 18px;
+                                font-weight: 600;
+                            }
+
+                            .discount-enabled {
+                                color: $gray-600;
+                                text-decoration: line-through;
+                                font-size: 18px;
+                                font-weight: 400;
+                            }
+                        }
+
+                        .footer {
+                            color: $gray-600;
+                            border-top: 1px solid $gray-400;
+                            display: flex;
+                            gap: 2rem;
+                            margin-top: 1rem;
+                            padding-top: 1rem;
+
+                            .hours {
+                                i {
+                                    margin-right: 5px;
+                                }
+                            }
+
+                            .likes {
+                                i {
+                                    margin-right: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+   

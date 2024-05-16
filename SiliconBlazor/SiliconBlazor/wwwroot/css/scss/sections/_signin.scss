@@ -1,0 +1,111 @@
+.signin {
+    height: 100%;
+
+    .container {
+        width: 95%;
+        margin-top: 6rem;
+
+        form {
+
+            h1, p {
+                text-align: center;
+            }
+
+            .form-content {
+                display: grid;
+                justify-content: center;
+                grid-template-columns: 1fr;
+                grid-template-areas: "email" "password" "remember" "submit";
+                margin-top: 2rem;
+
+                .input-group {
+                    margin-bottom: 20px;
+                    display: flex;
+                    flex-direction: column;
+
+
+                    label {
+                        padding: 3px;
+                    }
+
+                    input {
+                        border-radius: 8px !important;
+                    }
+                }
+            }
+
+            .checkbox-group {
+                margin-top: 30px;
+                margin-bottom: 50px;
+
+                .input-group {
+                    display: flex;
+                    flex-direction: row;
+                }
+            }
+
+
+            #email {
+                grid-area: email;
+                border-color: $gray-400;
+                width: 100%;
+            }
+
+            #password {
+                grid-area: password;
+
+            }
+
+            #btn-submit {
+                grid-area: submit;
+            }
+
+            #rememberMe {
+                grid-area: rememberMe;
+            }
+
+            #form-submit {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+@media (min-width: 992px) {
+    .signin {
+        .container {
+            form {
+                p {
+                    margin-bottom: 4rem;
+                }
+
+                .form-content {
+                    width: 50%;
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .signin {
+        .form-content {
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
+}
+
+
+
+
+
+
+
+                                          
+                                        
+
+                                    

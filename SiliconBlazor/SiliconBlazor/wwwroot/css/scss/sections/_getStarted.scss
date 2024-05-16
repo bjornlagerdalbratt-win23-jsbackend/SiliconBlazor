@@ -1,0 +1,31 @@
+.get-started {
+    background-color: $gray-100;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        .content {
+            display: flex;
+            flex-direction: column;
+
+            h2 {
+                color: pink;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .get-started {
+    
+        .container {
+            display: flex;
+            flex-direction: row;
+            .content {             
+                h2 {
+                    color: pink;
+                } 
+            }
+        }
+    }
+}

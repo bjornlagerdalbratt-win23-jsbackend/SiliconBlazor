@@ -1,0 +1,30 @@
+.bottom {
+    grid-area: bottom;
+    display: flex;
+    flex-direction: row;
+
+    .image-left {
+        img {
+        }
+    }
+
+
+    .content-right {
+        background-image: url("../../Images/sections/pattern.svg");
+        background-color: #0B0F19;
+
+        span {
+        }
+
+        h2 {
+        }
+
+        p {
+        }
+    }
+
+    .subscribe-buttons {
+        display: flex;
+        flex-direction: row;
+    }
+}

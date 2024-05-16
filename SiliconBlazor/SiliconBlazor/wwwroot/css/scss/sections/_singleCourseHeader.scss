@@ -1,0 +1,528 @@
+﻿
+.course-header-container {
+
+    .full-width-background {
+        background-image: url("/Images/sections/header-coursepage.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100%; /* Säkerställer att elementet täcker hela sidans bredd */
+
+
+        .course-header-content {
+
+            .page-content {
+                color: white;
+
+                .breadcrumb {
+                    color: $white;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 0.3rem;
+                    margin-left: 10px;
+
+                    .b-content {
+
+                        :before {
+                            padding: 5px;
+                            color: $white;
+                            content: "/\00a0";
+                        }
+                    }
+
+                    li {
+                        list-style-type: none;
+                        color: $white;
+
+
+                        :hover {
+                            color: #01447e;
+                            text-decoration: underline;
+                        }
+
+                        a {
+                            color: $white;
+                        }
+                    }
+                }
+
+                .keywords {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    margin-bottom: 0.5rem;
+
+
+
+                    .bestseller {
+                        background-color: $success;
+                        color: $white;
+                        padding: 0.1rem 0.3rem;
+                        border-radius: 6px;
+                        text-align: center;
+                    }
+
+                    .digital {
+                        background-color: $white;
+                        color: $black;
+                        padding: 0.1rem 0.3rem;
+                        border-radius: 6px;
+                        text-align: center;
+                        font-weight: 700;
+                    }
+                }
+
+                .content-titles {
+                    text-align: center;
+                    margin-bottom: 1.5rem;
+
+
+                    h1 {
+                        font-size: 30px;
+                        color: $white;
+                    }
+
+                    p {
+                        font-size: 18px;
+                        color: $gray-500;
+                    }
+                }
+
+                .ratings {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.4rem;
+                    margin-bottom: 1.5rem;
+
+                    .rating-symbol {
+                        i {
+                            margin-right: 0.3rem;
+                            color: $warning;
+                        }
+                    }
+
+                    .likes-hours {
+                        gap: 1rem;
+                        font-size: 18px;
+                        color: $gray-500;
+
+                        .vertical-line {
+                            border-left: 1px solid $white;
+                            height: 20px;
+                            text-align: center;
+                            display: flex;
+                            align-self: center;
+                            display: none;
+                        }
+
+                        p {
+                        }
+
+                        i {
+                        }
+                    }
+                }
+
+                .author {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 1rem;
+                    margin-top: 8rem;
+
+                    .author-image {
+                    }
+
+                    .content {
+                        text-align: left;
+
+                        span {
+                            font-size: 1em;
+                            font-weight: 800;
+                            color: $black;
+                            padding: 0;
+                        }
+
+                        p {
+                            color: $black;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 388px) {
+
+    .course-header-container {
+
+        .full-width-background {
+
+
+            .course-header-content {
+
+                .page-content {
+                .breadcrumb {
+                    li {
+                        :before {
+                        }
+
+                        :hover {
+                        }
+                    }
+                }
+                    .keywords {
+                        .bestseller {
+                        }
+
+                        .digital {
+                        }
+                    }
+
+                    .content-titles {
+                        h1 {
+                        }
+
+                        p {
+                        }
+                    }
+
+                    .ratings {
+                        .rating-symbol {
+                            i {
+                            }
+                        }
+
+                        .likes-hours {
+                            .vertical-line {
+                            }
+
+                            p {
+                            }
+
+                            i {
+                            }
+                        }
+                    }
+
+                    .author {
+                        margin-top: 2rem;
+
+                        .author-image {
+                        }
+
+                        .content {
+                            span {
+                            }
+
+                            span, p {
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        }
+    }
+
+@media(min-width: 768px) {
+    .course-header-container {
+
+        .full-width-background {
+
+
+
+
+            .course-header-content {
+
+
+
+
+                .page-content {
+                    color: white;
+                    margin-top: 0.2rem;
+                    padding-block: 1rem;
+
+                .breadcrumb {
+                    margin-bottom:4rem;
+                    li {
+                        :before {
+                        }
+
+                        :hover {
+                        }
+                    }
+                }
+                    .keywords {
+                    }
+
+                    .content-titles {
+                        padding-inline: 1.5rem;
+                        margin-bottom: 2rem;
+                    }
+
+                    .ratings {
+                        align-items: center;
+                        gap: 0.4rem;
+                        margin-bottom: 1rem;
+
+                        .rating-symbol {
+                            i {
+                                margin-right: 0.3rem;
+                                color: $warning;
+                            }
+                        }
+
+                        .likes-hours {
+                            display: flex;
+                            flex-direction: row;
+
+
+                            .vertical-line {
+                                display: block;
+                            }
+
+                            p {
+                                margin-bottom: 0;
+                            }
+
+                            i {
+                            }
+                        }
+                    }
+
+                    .author {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+                        gap: 1rem;
+                        margin-top: 5rem;
+
+                        .author-image {
+                        }
+
+                        .content {
+                            text-align: left;
+
+                            span {
+                                font-size: 1em;
+                                font-weight: 800;
+                                color: $black;
+                                padding: 0;
+                            }
+
+                            p {
+                                color: $black;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        }
+    }
+
+@media(min-width: 992px) {
+
+    .course-header-container {
+
+        .full-width-background {
+
+
+
+
+
+            .course-header-content {
+                padding-inline: 8rem;
+
+                .page-content {
+
+
+                .breadcrumb {
+                    margin-left: 0;
+
+                    li {
+                    }
+                }
+
+
+                    .keywords {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: left;
+                        gap: 0.5rem;
+                        margin-bottom: 1.5rem;
+
+                        .bestseller {
+                            width: 15%;
+                            padding: 0.1rem 0.3rem;
+                        }
+
+                        .digital {
+                            width: 15%;
+                            padding: 0.1rem 0.3rem;
+                        }
+                    }
+
+                    .content-titles {
+                        text-align: left;
+                        padding-left: 0;
+                    }
+
+                    .ratings {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: left;
+                        gap: 0.4rem;
+                        margin-bottom: 1.5rem;
+
+                        .rating-symbol {
+                            i {
+                            }
+                        }
+
+                        .likes-hours {
+
+
+                            .vertical-line {
+                            }
+
+                            p {
+                            }
+
+                            i {
+                            }
+                        }
+                    }
+
+                    .author {
+                        margin-bottom: 1rem;
+
+
+                        .author-image {
+                        }
+
+                        .content {
+
+
+                            span {
+                            }
+
+                            p {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }
+
+@media(min-width: 1200px) {
+
+    .course-header-container {
+
+
+        .full-width-background {
+
+
+
+
+
+            .course-header-content {
+                max-width: 1200px;
+                margin: 0 auto;
+
+
+                .page-content {
+                    //  padding-inline: 14rem;
+
+                    @include xxl {
+                    }
+
+                    .breadcrumb {
+                        text-align: left;
+
+                        li {
+                        }
+                    }
+
+                    .keywords {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: left;
+                        gap: 0.5rem;
+                        margin-bottom: 1.5rem;
+
+                        .bestseller {
+                            width: 15%;
+                            padding: 0.1rem 0.3rem;
+                        }
+
+                        .digital {
+                            width: 15%;
+                            padding: 0.1rem 0.3rem;
+                        }
+                    }
+
+                    .content-titles {
+                        text-align: left;
+                        padding-left: 0;
+                    }
+
+                    .ratings {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: left;
+                        gap: 0.4rem;
+                        margin-bottom: 1.5rem;
+
+                        .rating-symbol {
+                            i {
+                            }
+                        }
+
+                        .likes-hours {
+
+
+                            .vertical-line {
+                            }
+
+                            p {
+                            }
+
+                            i {
+                            }
+                        }
+                    }
+
+                    .author {
+                        margin-bottom: 1rem;
+
+
+                        .author-image {
+                        }
+
+                        .content {
+
+
+                            span {
+                            }
+
+                            p {
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

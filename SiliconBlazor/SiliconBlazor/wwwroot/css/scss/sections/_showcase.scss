@@ -1,0 +1,235 @@
+.showcase {
+    justify-content: center;
+    .container {
+
+        @include lg {
+            padding: 0;
+            margin-top: 70px;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .background-image {
+            display: none;
+            max-width: 100%; // ej bli större än usrprungliga storlek
+            height: auto; //bibehåller bildens prop
+            gap: 0;
+
+            @include xl {
+                display: block;
+                width: 60%;
+            }
+        }
+
+        .content {
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            @include lg {
+                display: flex;
+                text-align: left;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            h1 {
+                @include h1;
+            }
+
+            a {
+                width: 80%;
+            }
+
+            .btn-short {
+                width: 220px;
+                margin: 0 auto;
+                margin-bottom: 20px;
+
+                @include lg {
+                    margin-left: 0;
+                }
+            }
+
+            .brands-wrapper {
+                margin-top: 50px;
+
+                .brands {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    justify-items: center;
+                    gap: 1rem;
+
+                    @include lg {
+                        gap: 15px;
+                        justify-content: left;
+                        margin-left: -25px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media (min-width: 576px) {
+    .showcase {
+        display: flex;
+        flex-direction: row;
+
+
+        .container {
+            display: flex;
+
+
+            @include lg {
+                padding: 0;
+                margin-top: 70px;
+                display: flex;
+                flex-direction: row-reverse;
+            }
+
+
+            .background-image {
+
+                @include lg {
+                }
+            }
+
+            .content {
+                padding: 15px;
+                text-align: center;
+
+                @include lg {
+                    display: flex;
+                    text-align: left;
+                    flex-direction: column;
+                    gap: 20px;
+                }
+
+                h1 {
+                    @include h1;
+                }
+
+                a {
+                    width: 40%;
+                }
+
+                .btn-short {
+                    width: 220px;
+                    margin: 0 auto;
+                    margin-bottom: 20px;
+
+                    @include lg {
+                        margin-left: 0;
+                    }
+                }
+
+                .brands-wrapper {
+                    margin-top: 50px;
+
+                    .brands {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+                        justify-items: center;
+                        gap: 7rem;
+
+                        @include lg {
+                            gap: 15px;
+                            justify-content: left;
+                            margin-left: -25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+@media (min-width: 768px) {
+    .showcase {
+        display: flex;
+        flex-direction: row;
+
+        .container {
+            margin: 0 auto;
+            display: flex;
+
+            @include lg {
+                padding: 0;
+                margin-top: 70px;
+                display: flex;
+                flex-direction: row-reverse;
+            }
+
+            .background-image {
+
+                @include lg {
+                }
+            }
+
+            .content {
+                padding: 15px;
+                text-align: center;
+                width: 82%;
+                margin: 0 auto;
+
+                @include lg {
+                    display: flex;
+                    text-align: left;
+                    flex-direction: column;
+                    gap: 20px;
+                }
+
+                h1 {
+                    @include h1;
+                }
+
+                a {
+                    width: 100%;
+                    padding-inline: 6px;
+                }
+
+                .btn-short {
+                    width: 220px;
+                    margin: 0 auto;
+                    margin-bottom: 20px;
+
+                    @include lg {
+                        margin-left: 0;
+                    }
+                }
+
+                .brands-wrapper {
+                    margin-top: 50px;
+
+                    h6 {
+                        margin-bottom: 1rem;
+                    }
+
+                    .brands {
+                        display: grid;
+                        justify-items: center;
+                        grid-template-columns: 1fr 1fr 1fr 1fr;
+                        gap: 4rem;
+
+                        @include lg {
+                            justify-content: left;
+                            margin-left: -25px;
+                        }
+
+                        @include xl {
+                            gap: 3px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
