@@ -1,5 +1,148 @@
 ﻿@page "/Account/Login"
 
+
+
+<PageTitle>Sign in</PageTitle>
+<section class="signin">
+    <div class="container">
+
+        @if (!string.IsNullOrEmpty(StatusMessage))
+        {
+            <div class="alert alert-danger">
+                @StatusMessage
+            </div>
+        }
+        <StatusMessage Message="@errorMessage" />
+
+        <EditForm FormName="signinform" Model="SignInForm" id="signinForm" OnValidSubmit="LoginUser" novalidate>
+            <DataAnnotationsValidator />
+
+            <h1>Welcome Back</h1>
+            <p>Don't have an account yet? <a href="/account/register">Click here to register</a></p>
+            
+            <ValidationSummary class="text-danger" role="alert" />
+
+            <div class="form-content">
+
+                <div id="form-email" class="input-group">
+                    <label>Enter your Email address</label>
+                    <InputText @bind-Value="SignInForm.Email" id="email" type="email" placeholder="Email address" />
+                    <span>
+                        <ValidationMessage For="() => SignInForm.Email" id="email-error" class="text-danger" />
+                    </span>
+                    <span id="email-error"></span>
+                </div>
+
+                <div id="form-password" class="input-group">
+                    <label>Enter your password</label>
+                    <InputText @bind-Value="SignInForm.Password" id="passwordSignin" type="password" placeHolder="Password" />
+                    <span>
+                        <ValidationMessage For="() => SignInForm.Password" id="passwordSignin-error" class="text-danger" />
+                    </span>
+                </div>
+
+                <div id="form-checkbox" class="checkbox-group">
+                    <div class="input-group">
+                        <input id="checkbox" type="checkbox" />
+                        <label>Remember me</label>
+                    </div>
+                </div>
+                <div id="form-button">
+                    <button type="submit" class="btn btn-theme"><i class="fa-regular fa-arrow-left-to-bracket"></i>Sign In</button>
+                </div>
+                <a href="/Account/ForgotPassword" id="form-forgot-password">Forgot your password?</a>
+            </div>
+        </EditForm>
+    </div>
+</section>
+
+
+@code {
+
+
+    private string? errorMessage;
+
+
+    [CascadingParameter]
+    public HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromQuery]
+    public string StatusMessage { get; set; } = "";
+
+    [SupplyParameterFromForm]
+    public SignInFormViewModel SignInForm { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    public string? ReturnUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        }
+    }
+
+    public async Task LoginUser()
+    {
+        // This doesn't count login failures towards account lockout
+        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+        var result = await SignInManager.PasswordSignInAsync(SignInForm.Email, SignInForm.Password, SignInForm.RememberMe, lockoutOnFailure: false);
+        if (result.Succeeded)
+        {
+            Logger.LogInformation("User logged in.");
+            RedirectManager.RedirectTo(ReturnUrl);
+        }
+        else if (result.RequiresTwoFactor)
+        {
+            RedirectManager.RedirectTo(
+                "Account/LoginWith2fa",
+                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = SignInForm.RememberMe });
+        }
+        else if (result.IsLockedOut)
+        {
+            Logger.LogWarning("User account locked out.");
+            RedirectManager.RedirectTo("Account/Lockout");
+        }
+        else
+        {
+            errorMessage = "Error: Invalid login attempt.";
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*             @page "/Account/Login"
+
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
@@ -126,3 +269,4 @@
         public bool RememberMe { get; set; }
     }
 }
+ *@

@@ -49,6 +49,10 @@
     [Inject]
     public ServiceBusClient ServiceBusClient { get; set; } = null!;
 
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+
     [SupplyParameterFromForm]
     private VerifyCodeModel VerifyCodeForm { get; set; } = new VerifyCodeModel();
 
@@ -60,6 +64,9 @@
             var user = await UserManager.FindByEmailAsync(Email);
             user.EmailConfirmed = true;
             await UserManager.UpdateAsync(user);
+
+            // Navigate to Login
+            Navigation.NavigateTo("/Account/Login");
         }
         else
         {
