@@ -1,0 +1,301 @@
+﻿@page "/courses"
+@using Newtonsoft.Json
+@using SiliconBlazor.Models
+@inject HttpClient httpClient
+
+@attribute [StreamRendering]
+
+
+<PageTitle>Courses</PageTitle>
+
+<section class="courses">
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Courses</h1>
+            <form id="form-filters">
+                <select>
+                    <option>All Categories</option>
+                </select>
+                <div class="input-search-group">
+                    <input id="searchQuery" name="searchQuery" placeholder="Search courses" />
+                    <i class="fa-regular fa-search"></i>
+                </div>
+            </form>
+        </div>
+
+        <div class="course-items">
+            @if (courses == null)
+            {
+               <p class="loading">Loading courses...</p>
+               <div><i class="fa-sharp sa-solid fa-spinner-third fa-spin"></i></div>
+            }
+            else
+            {
+                foreach (var course in courses)
+                {
+                    var link = $"courses/details/{course.Id}";
+                    <a href="@link" asp.route-id="@course.Id" class="course">
+                        @if (course.IsBestSeller)
+                        {
+                            <div class="bestseller">Best Seller</div>
+                        }
+
+                        <span class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></span>
+
+                        <img src="@course.ImageUri" alt="@course.Title" />
+
+
+                        <div class="content">
+                            <h5 class="title">@course.Title</h5>
+                            <p class="author">By @course.Author</p>
+                            <div class="pricing"></div>
+                            @if (!string.IsNullOrEmpty(course.DiscountPrice))
+                            {
+                                <div class="discount">@course.DiscountPrice</div>
+                            }
+                            <div class="price @(!string.IsNullOrEmpty(course.DiscountPrice)? "discount-enabled" : "")">@course.Price</div>
+                        </div>
+                        <div class="footer">
+                            <div class="hours">
+                                <i class="fa-regular fa-clock"></i> @course.Hours hours
+                            </div>
+                            <div class="likes">
+                                <i class="fa-regular fa-thumbs-up"></i> @course.LikesInProcent (@course.LikesInNumbers)
+                            </div>
+
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+
+    </div>
+
+
+
+
+</section>
+
+
+@code {
+    private List<CourseCardModel>? courses;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var query = new GraphQLQuery
+            {
+                Query = @"
+            {
+                getCourses {
+                    id
+                    isBestSeller
+                    title
+                    authors {
+                        firstName
+                        lastName
+                    }
+                    prices {
+                        currency
+                        price
+                        discount
+                    }
+                    hours
+                    likesInProcent
+                    likes
+                }
+            }"
+            };
+        var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, List<CourseData>>>>(result);
+
+            if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourses", out var courseList))
+            {
+                courses = courseList.Select(courseData => new CourseCardModel
+                    {
+                        Id = courseData.Id,
+                        IsBestSeller = courseData.IsBestSeller,
+                        Title = courseData.Title,
+                        ImageUri = courseData.ImageUri,
+                        Author = string.Join(", ", courseData.Authors?.Select(author => $"{author.FirstName} {author.LastName}")),
+                        Price = $"{courseData.Prices?.Currency} {courseData.Prices?.Price}",
+                        DiscountPrice = courseData.Prices?.Discount > 0
+                            ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
+                            : null,
+                        Hours = courseData.Hours,
+                        LikesInNumbers = courseData.Likes,
+                        LikesInProcent = courseData.LikesInProcent
+                    }).ToList();
+            }
+            else
+            {
+                Console.WriteLine("No courses data available.");
+            }
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {response.StatusCode}");
+            Console.WriteLine($"Error Content: {errorContent}");
+        }
+
+        // var query = new GraphQLQuery { Query = "{ getCourses { id isBestseller title authors {name} categories prices { price discount } hours likesInProcent likes }}" };
+
+    //     var query = new GraphQLQuery
+    //         {
+    //             Query = @"
+    //         {
+    //             getCourses {
+    //                 id
+    //                 isBestSeller
+    //                 title
+    //                 authors {
+    //                     firstName
+    //                     lastName
+    //                 }
+    //                 prices {
+    //                     currency
+    //                     price
+    //                     discount
+    //                 }
+    //                 hours
+    //                 likesInProcent
+    //                 likes
+    //             }
+    //         }"
+    //         };
+
+
+    //     try
+    //     {
+    //         var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+
+    //         if(response.IsSuccessStatusCode)
+    //         {
+    //             var result = await response.Content.ReadFromJsonAsync<DynamicGraphQLResponse>();
+
+    //             courses = result?.Data.GetProperty("getCourses").EnumerateArray()
+    //                 .Select(course => new CourseCardModel
+    //                     {
+    //                         Id = course.GetProperty("id").GetString(),
+    //                         IsBestSeller = course.GetProperty("isBestSeller").GetBoolean(),
+    //                         ImageUri = course.GetProperty("imageUri").GetString(),
+    //                         Title = course.GetProperty("title").GetString()!,
+
+
+    //                         Author = string.Join(", ", course.GetProperty("authors")
+    //                             .EnumerateArray()
+    //                             .Select(author => $"{author.GetProperty("firstName").GetString()} {author.GetProperty("lastName").GetString()}")),
+
+
+    //                         Price = $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble()}",
+    //                         DiscountPrice = course.GetProperty("prices").GetProperty("discount").GetDouble() > 0
+    //                             ? $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble() - course.GetProperty("prices").GetProperty("discount").GetDouble()}"
+    //                             : null,
+    //                         Hours = course.GetProperty("hours").ToString(),
+    //                         LikesInProcent = course.GetProperty("likesInProcent").GetString(),
+    //                         LikesInNumbers = course.GetProperty("likes").GetString(),
+    //                     })
+    //                 .ToList();
+    //         }
+    //         else
+    //         {
+    //             var errorContent = await response.Content.ReadAsStringAsync();
+    //             Console.WriteLine($"Error: {response.StatusCode}");
+    //             Console.WriteLine($"Error Content: {errorContent}");
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine($"Exception: {ex.Message}");
+    //     }
+    // }
+
+
+    // private string GetAuthorsString(List<JsonElement> authors)
+    // {
+    //     //returns empty string if no author
+    //     if (authors == null || authors.Count == 0)
+    //     {
+    //         return string.Empty;
+    //     }
+    //     // Skapa en lista för att lagra strängrepresentationen av varje författare
+    //     List<string> authorNames = new List<string>();
+
+    //     // Loopa igenom varje författare och extrahera förnamn och efternamn
+    //     foreach (var author in authors)
+    //     {
+    //         // Kontrollera om både "firstName" och "lastName" finns i JSON-elementet
+    //         if (author.TryGetProperty("firstName", out var firstNameProperty) &&
+    //             author.TryGetProperty("lastName", out var lastNameProperty))
+    //         {
+    //             // Hämta förnamn och efternamn om de finns och inte är null
+    //             string firstName = firstNameProperty.GetString()!;
+    //             string lastName = lastNameProperty.GetString()!;
+
+    //             // Kontrollera att både förnamn och efternamn inte är null innan de läggs till i listan
+    //             if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+    //             {
+    //                 authorNames.Add($"{firstName} {lastName}");
+    //             }
+    //         }
+    //     }
+
+    //     return string.Join(", ", authorNames);
+    // }
+
+}
+}
+
+
+@*     const json = JSON.stringify('{ query: "{getCourses { id isBestSeller title authors {firstName lastName} prices {price currency discount} hours likesInProcent likes}}"')
+    const res = await fetch("http://localhost:7036/api/graphql", { method: 'post', headers: {'content-type': 'application/json'}, body: json })
+
+    const result = await res.json()
+
+    var courses = result.data.getCourse *@
+
+
+
+@*             var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            var data = JsonConvert.DeserializeObject<DynamicGraphQLResponse>(result);
+            Console.WriteLine(data);
+            Console.WriteLine(result.ToString());
+            var coursesData = data?.Data.GetProperty("getCourses").EnumerateArray();
+            Console.WriteLine(coursesData);
+
+
+            courses = coursesData?.Select(course => new CourseCardModel
+                {
+                    Id = course.GetProperty("id").GetString(),
+                    IsBestSeller = course.GetProperty("isBestSeller").GetBoolean(),
+                    ImageUri = course.GetProperty("imageUri").GetString(),
+                    Title = course.GetProperty("title").GetString()!,
+                    Author = $"{course.GetProperty("authors").GetProperty("firstName").GetString()} {course.GetProperty("authors").GetProperty("lastName").GetString()}",
+                    Price = $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble()}",
+                    DiscountPrice = course.GetProperty("prices").GetProperty("discount").GetDouble() > 0
+                                    ? $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble() - course.GetProperty("prices").GetProperty("discount").GetDouble()}"
+                                    : null,
+                    Hours = course.GetProperty("hours").ToString(),
+                    LikesInNumbers = course.GetProperty("likes").ToString(),
+                    LikesInProcent = course.GetProperty("likesInProcent").ToString()
+                }).ToList();
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {response.StatusCode}");
+            Console.WriteLine($"Error Content: {errorContent}");
+        } *@
+        }

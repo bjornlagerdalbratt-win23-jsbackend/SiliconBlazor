@@ -4,42 +4,41 @@
 
 
     .container {
-
-        h1 {
-        }
-
-        #form-filters {
-
-
-            select {
-            }
-
-            .input-search-group {
-                margin-bottom: 10px;
-                position: relative;
-
-                input {
-                    padding: 15px;
-                    width: 100%;
-                    margin-top: 10px;
-                }
-
-                i {
-                    position: absolute;
-                    bottom: 20px;
-                    right: 14px;
-                }
-            }
-        }
-
-
         .header {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+
+            h1 {
+            }
+
+            #form-filters {
+
+
+                select {
+                }
+
+                .input-search-group {
+                    margin-bottom: 10px;
+                    position: relative;
+
+                    input {
+                        padding: 15px;
+                        width: 100%;
+                        margin-top: 10px;
+                    }
+
+                    i {
+                        position: absolute;
+                        bottom: 20px;
+                        right: 14px;
+                    }
+                }
+            }
         }
+
 
         .course-items {
             display: grid;
