@@ -5,13 +5,13 @@
 
         <div id="menu">
             <nav id="mobileMenu" class="mobile-menu">
-                <NavLink href="/" class="menu-link">Overview</NavLink>
+                <NavLink href="" Match="NavLinkMatch.All" class="menu-link">Overview</NavLink>
                 <NavLink href="/#features" class="menu-link">Features</NavLink>
 
                 <AuthorizeView>
                     <Authorized>
                         <NavLink href="/courses" class="menu-link">Courses</NavLink>
-                        <NavLink href="/coursedetails" class="menu-link">Single Course</NavLink>
+                        <NavLink href="/coursedetails" class="menu-link">Course details</NavLink>
                     </Authorized>
                 </AuthorizeView>
 
@@ -45,10 +45,6 @@
                 </NotAuthorized>
             </AuthorizeView> 
         </div>
-
-        <button onclick="toggleMenu()" class="btn-mobile">
-            <i class="fa-regular fa-bars"></i>
-        </button>
 
     </div>
 </header>

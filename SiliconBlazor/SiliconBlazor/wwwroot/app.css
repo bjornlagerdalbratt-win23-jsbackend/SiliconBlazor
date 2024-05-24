@@ -562,7 +562,6 @@ form button {
   padding: 10px;
   border-radius: 8px;
   /* margin: 40px 149px; */
-  height: 3rem;
   width: 60%;
   margin: 0 auto;
 }
@@ -580,7 +579,6 @@ form button {
   padding: 10px;
   border-radius: 8px;
   /* margin: 40px 149px; */
-  height: 3rem;
   width: 60%;
   margin: 0 auto;
 }
@@ -598,7 +596,7 @@ form button {
 
 span {
   padding: 10px;
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: #df4747;
 }
 
@@ -2090,9 +2088,11 @@ footer .container .social-media {
 .signup .container {
   width: 95%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  margin-top: 4.5rem;
 }
 @media (min-width: 992px) {
   .signup .container {
@@ -2105,7 +2105,7 @@ footer .container .social-media {
   }
 }
 .signup .container #signupForm {
-  margin-top: 6rem;
+  margin-top: 2rem;
 }
 .signup .container #signupForm h1, .signup .container #signupForm p {
   text-align: center;
