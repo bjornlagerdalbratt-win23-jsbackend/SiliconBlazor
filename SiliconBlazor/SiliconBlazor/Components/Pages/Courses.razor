@@ -1,9 +1,6 @@
 ﻿@page "/courses"
-@using Newtonsoft.Json
-@using SiliconBlazor.Models
-@inject HttpClient httpClient
-
 @attribute [StreamRendering]
+@attribute [Authorize]
 
 
 <PageTitle>Courses</PageTitle>
@@ -110,6 +107,9 @@
             }"
             };
         var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+
+       // var response = await Http.GetFromJsonAsync<CourseCardModel[]>("https://cosmosdb-silicon.documents.azure.com:443/");
+
 
         if (response.IsSuccessStatusCode)
         {
