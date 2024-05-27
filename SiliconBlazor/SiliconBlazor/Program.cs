@@ -51,6 +51,15 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(x =>
+{
+    x.LoginPath = "/account/login";
+    x.Cookie.HttpOnly = true;
+    x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    x.ExpireTimeSpan = TimeSpan.FromHours(1);
+    x.SlidingExpiration = true;
+});
+
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();

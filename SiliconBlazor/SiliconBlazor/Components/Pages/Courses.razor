@@ -1,4 +1,8 @@
 ﻿@page "/courses"
+@using Newtonsoft.Json
+@using static System.Net.WebRequestMethods
+@* @using Newtonsoft.Json
+@using static System.Net.WebRequestMethods *@
 @attribute [StreamRendering]
 @attribute [Authorize]
 
@@ -83,6 +87,7 @@
     protected override async Task OnInitializedAsync()
     {
 
+
         var query = new GraphQLQuery
             {
                 Query = @"
@@ -91,6 +96,7 @@
                     id
                     isBestSeller
                     title
+                  imageUri
                     authors {
                         firstName
                         lastName
@@ -106,10 +112,8 @@
                 }
             }"
             };
-        var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
 
-       // var response = await Http.GetFromJsonAsync<CourseCardModel[]>("https://cosmosdb-silicon.documents.azure.com:443/");
-
+          var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
 
         if (response.IsSuccessStatusCode)
         {
@@ -124,11 +128,11 @@
                         IsBestSeller = courseData.IsBestSeller,
                         Title = courseData.Title,
                         ImageUri = courseData.ImageUri,
-                        Author = string.Join(", ", courseData.Authors?.Select(author => $"{author.FirstName} {author.LastName}")),
+                        Author = string.Join(", ", courseData.Authors?.Select(author => $"{author.FirstName} {author.LastName}")!),
                         Price = $"{courseData.Prices?.Currency} {courseData.Prices?.Price}",
                         DiscountPrice = courseData.Prices?.Discount > 0
-                            ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
-                            : null,
+                                ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
+                                : null,
                         Hours = courseData.Hours,
                         LikesInNumbers = courseData.Likes,
                         LikesInProcent = courseData.LikesInProcent
@@ -145,6 +149,89 @@
             Console.WriteLine($"Error: {response.StatusCode}");
             Console.WriteLine($"Error Content: {errorContent}");
         }
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+        //     try
+        //     {
+        //         var courses = await Http.GetFromJsonAsync<CourseCardModel[]>(Environment.GetEnvironmentVariable("COURSES_URI"));
+
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine($"Error fetching courses: {ex.Message}");
+        //     }
+
+
+        // }
+
+        //       private class CourseCardModel
+        //         {
+        //         public string? Id { get; set; }
+        //         public bool IsBestSeller { get; set; }
+        //         public string? ImageUri { get; set; }
+        //         public string? Title { get; set; }
+        //         public string? Author { get; set; }
+        //         public string? Price { get; set; }
+        //         public string? DiscountPrice { get; set; }
+        //         public string? Hours { get; set; }
+        //         public string? LikesInNumbers { get; set; }
+        //         public string? LikesInProcent { get; set; }
+
+        //         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // var query = new GraphQLQuery { Query = "{ getCourses { id isBestseller title authors {name} categories prices { price discount } hours likesInProcent likes }}" };
 
@@ -251,51 +338,6 @@
     //     return string.Join(", ", authorNames);
     // }
 
-}
-}
 
 
-@*     const json = JSON.stringify('{ query: "{getCourses { id isBestSeller title authors {firstName lastName} prices {price currency discount} hours likesInProcent likes}}"')
-    const res = await fetch("http://localhost:7036/api/graphql", { method: 'post', headers: {'content-type': 'application/json'}, body: json })
-
-    const result = await res.json()
-
-    var courses = result.data.getCourse *@
-
-
-
-@*             var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            var data = JsonConvert.DeserializeObject<DynamicGraphQLResponse>(result);
-            Console.WriteLine(data);
-            Console.WriteLine(result.ToString());
-            var coursesData = data?.Data.GetProperty("getCourses").EnumerateArray();
-            Console.WriteLine(coursesData);
-
-
-            courses = coursesData?.Select(course => new CourseCardModel
-                {
-                    Id = course.GetProperty("id").GetString(),
-                    IsBestSeller = course.GetProperty("isBestSeller").GetBoolean(),
-                    ImageUri = course.GetProperty("imageUri").GetString(),
-                    Title = course.GetProperty("title").GetString()!,
-                    Author = $"{course.GetProperty("authors").GetProperty("firstName").GetString()} {course.GetProperty("authors").GetProperty("lastName").GetString()}",
-                    Price = $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble()}",
-                    DiscountPrice = course.GetProperty("prices").GetProperty("discount").GetDouble() > 0
-                                    ? $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble() - course.GetProperty("prices").GetProperty("discount").GetDouble()}"
-                                    : null,
-                    Hours = course.GetProperty("hours").ToString(),
-                    LikesInNumbers = course.GetProperty("likes").ToString(),
-                    LikesInProcent = course.GetProperty("likesInProcent").ToString()
-                }).ToList();
-        }
-        else
-        {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Error: {response.StatusCode}");
-            Console.WriteLine($"Error Content: {errorContent}");
-        } *@
-        }
+    }
