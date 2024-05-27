@@ -1,0 +1,62 @@
+﻿@using System.Net.Http.Headers
+@inject HttpClient httpClient
+
+@rendermode InteractiveWebAssembly
+
+<div class="content-left">
+    <div class="avatar">
+        <img src="/images/uploads/profiles/avatar.png" alt="avatar image">
+
+        <EditForm FormName="fileForm" Model="FileModel" OnValidSubmit="HandleSubmit" enctype="multipart/form-data">
+            <InputFile OnChange="HandleSelectedFile" accept="image/*" class="form-control mb-3" />
+            <button type="submit" class="btn btn-secondary w-100">UPLOAD</button>
+        </EditForm>
+
+    </div>
+    <div class="account-info">
+        <h5>John Doe</h5>
+        <p>john.doe@domain.se</p>
+    </div>
+    <a class="btn-transparent"><i class="fa-regular fa-gear"></i>Account Details</a>
+    <a class="btn-transparent"><i class="fa-regular fa-lock"></i>Account Notification</a>
+    <a class="btn-transparent"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign Out</a>
+</div>
+
+@code {
+    private MultipartFormDataContent FileModel = new MultipartFormDataContent();
+    private IBrowserFile? selectedFile;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+
+    private void HandleSelectedFile(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (selectedFile != null)
+        {
+            using var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 15));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(fileContent, "file", selectedFile.Name);
+
+            try
+            {
+                var response = await httpClient.PostAsync("https://fileprovider-siliconapp.azurewebsites.net/api/Upload?code=EVZb6DsuFq4E9-ccuDMCHZi0-SNofCeud3WTffIhadVbAzFuPiZJEQ%3D%3D&containerName=profiles", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    StateHasChanged();
+                    Console.WriteLine("Worked");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error");
+            }
+        }
+    }
+}
