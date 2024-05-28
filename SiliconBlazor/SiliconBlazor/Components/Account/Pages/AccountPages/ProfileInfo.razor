@@ -1,39 +1,71 @@
-﻿@using System.Net.Http.Headers
+﻿@attribute [StreamRendering]
+@using System.Net.Http.Headers
+@using SiliconBlazor.Services
 @inject HttpClient httpClient
+@inject UserProfileManager UserProfileManager
 
-@rendermode InteractiveWebAssembly
 
-<div class="content-left">
-    <div class="avatar">
-        <img src="/images/uploads/profiles/avatar.png" alt="avatar image">
+@if (user == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="content-left">
+        <div class="avatar">
+            <img src="/images/uploads/profiles/avatar.png" alt="avatar image">
 
-        <EditForm FormName="fileForm" Model="FileModel" OnValidSubmit="HandleSubmit" enctype="multipart/form-data">
-            <InputFile OnChange="HandleSelectedFile" accept="image/*" class="form-control mb-3" />
-            <button type="submit" class="btn btn-secondary w-100">UPLOAD</button>
-        </EditForm>
+            <EditForm FormName="fileForm" Model="FileModel" OnValidSubmit="HandleSubmit" enctype="multipart/form-data">
+                <InputFile id="fileUpload" OnChange="HandleSelectedFile" accept="image/*" class="form-control mb-3" hidden />
+                <label for="fileUpload"><i class="fa-solid fa-rotate-reverse"></i></label>
+                @* <button type="submit" class="btn btn-secondary w-100">UPLOAD</button> *@
+            </EditForm>
 
+        </div>
+        <div class="account-info">
+            <h5>@user.UserProfile?.FirstName @user.UserProfile?.LastName</h5>
+            <p>@user.Email</p>
+        </div>
+        <a class="btn-transparent"><i class="fa-regular fa-gear"></i>Account Details</a>
+        <a class="btn-transparent"><i class="fa-regular fa-lock"></i>Account Notification</a>
+        <a class="btn-transparent"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign Out</a>
     </div>
-    <div class="account-info">
-        <h5>John Doe</h5>
-        <p>john.doe@domain.se</p>
-    </div>
-    <a class="btn-transparent"><i class="fa-regular fa-gear"></i>Account Details</a>
-    <a class="btn-transparent"><i class="fa-regular fa-lock"></i>Account Notification</a>
-    <a class="btn-transparent"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign Out</a>
-</div>
+}
+
 
 @code {
+
+    private ApplicationUser user = default!;
+    private UserProfileManager _userProfileManager = default!;
     private MultipartFormDataContent FileModel = new MultipartFormDataContent();
     private IBrowserFile? selectedFile;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserDataAsync();
+
+    }
 
     private void HandleSelectedFile(InputFileChangeEventArgs e)
     {
         selectedFile = e.File;
     }
+
+    private async Task LoadUserDataAsync()
+    {
+        user = await UserManager.GetUserAsync(HttpContext.User) ?? null!;
+        if (user.UserProfileId != null)
+        {
+            user.UserProfile = await UserProfileManager.GetUserProfileAsync(user.UserProfileId);
+        }
+
+        
+    }
+
+
 
     private async Task HandleSubmit()
     {

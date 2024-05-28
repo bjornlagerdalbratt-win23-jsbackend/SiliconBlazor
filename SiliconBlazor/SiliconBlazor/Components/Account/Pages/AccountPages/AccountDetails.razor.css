@@ -1,0 +1,63 @@
+﻿.account-details {
+  margin-top: 6rem;
+  height: 100%;
+}
+.account-details .container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  justify-content: center;
+  height: 100%;
+  gap: 3rem 4rem;
+}
+.account-details .container h1 {
+  text-align: left;
+}
+.account-details .container p {
+  margin-top: 0;
+  margin-bottom: 1rem !important;
+}
+.account-details .container .content-right {
+  max-width: 856px;
+  grid-column: 5/span 8;
+}
+.account-details .container .content-right h5 {
+  color: #6366F1;
+}
+.account-details .container .content-right label {
+  font-weight: 700;
+}
+.account-details .container .content-right label span {
+  color: #D4D7E5;
+}
+.account-details .container .content-right input:focus {
+  box-shadow: none;
+  border: 1px solid #6366F1;
+}
+.account-details .container .content-right input::placeholder {
+  opacity: 0.4;
+}
+.account-details .container .content-right textarea::placeholder {
+  opacity: 0.4;
+}
+.account-details .container .content-right .buttons {
+  display: flex;
+  margin-bottom: 3rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.account-details .container .content-right .buttons .btn-theme-s {
+  border: 1px solid #6366F1;
+}
+.account-details .container .content-right .error {
+  padding: 0.5rem;
+  color: #EF4444;
+}
+.account-details .container .content-right .bottom-form {
+  border-top: 1px #E2E5F1 solid;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+.account-details .container .content-right .bottom-form .error {
+  padding: 0.5rem;
+  color: #EF4444;
+}

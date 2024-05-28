@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SiliconBlazor.Components;
 using SiliconBlazor.Components.Account;
 using SiliconBlazor.Data;
+using SiliconBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<UserProfileManager>();
+builder.Services.AddScoped<UserAddressManager>();
 
 builder.Services.AddSingleton(sp =>
 {

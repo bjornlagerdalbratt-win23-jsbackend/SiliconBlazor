@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/app.css",
     "inputFile": "wwwroot/app.scss"
+  },
+  {
+    "outputFile": "Components/Account/Pages/AccountPages/AccountDetails.razor.css",
+    "inputFile": "Components/Account/Pages/AccountPages/AccountDetails.razor.scss"
   }
 ]
