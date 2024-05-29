@@ -5,13 +5,13 @@
 
         <div id="menu">
             <nav id="mobileMenu" class="mobile-menu">
-                <NavLink href="" Match="NavLinkMatch.All" class="menu-link">Overview</NavLink>
+                <NavLink href="/" class="menu-link">Overview</NavLink>
                 <NavLink href="/#features" class="menu-link">Features</NavLink>
 
                 <AuthorizeView>
                     <Authorized>
                         <NavLink href="/courses" class="menu-link">Courses</NavLink>
-                        <NavLink href="/coursedetails" class="menu-link">Course details</NavLink>
+                        <NavLink href="/course/{id}" class="menu-link">Single Course</NavLink>
                     </Authorized>
                 </AuthorizeView>
 
