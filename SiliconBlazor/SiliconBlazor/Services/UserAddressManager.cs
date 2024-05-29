@@ -10,6 +10,6 @@ public class UserAddressManager(ApplicationDbContext context)
     public async Task<UserAddress> GetUserAddressAsync(string id)
     {
         var userAddress = await _context.UserAddresses.FirstOrDefaultAsync(x => x.Id == id);
-        return userAddress!;
+        return userAddress ?? new UserAddress(); 
     }
 }
