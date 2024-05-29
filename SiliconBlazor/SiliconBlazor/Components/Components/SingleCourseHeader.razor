@@ -1,0 +1,112 @@
+﻿<div class="course-header-container">
+    <div class="full-width-background">
+        <div class="course-header-content">
+
+            <div class="page-content">
+
+                <ul class="breadcrumb">
+                    <li><NavLink href="/">Home</NavLink></li>
+                    <li class="b-content"><NavLink href="/courses">Courses</NavLink></li>
+                    <li class="b-content"><NavLink href="/course/{id}">Single Course</NavLink></li>
+                </ul>
+                <div class="keywords">
+                    @if (Course != null)
+                    {
+                        @if (Course.IsBestSeller == true)
+                        {
+                            <div class="bestseller">BestSeller</div>
+                        }
+                        @if (Course.IsDigital == true)
+                        {
+                            <div class="digital">Digital</div>
+
+                        }
+                    }
+                </div>
+
+                <div class="content-titles">
+                    @if (Course != null)
+                    {
+                        <h1>@Course.Title</h1>
+                        <p>@Course.Ingress</p>
+                    }
+                </div>
+
+                <div class="ratings">
+                    <div class="rating-symbol">
+                        @if (Course != null)
+                        {
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < Course?.StarRating)
+                                {
+                                    <i class="fa-solid fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-star"></i>
+
+                                }
+                            }
+                        }
+                    </div>
+
+                    <div class="likes-hours">
+                        @if (Course != null)
+                        {
+                            <p>(@Course?.Reviews reviews)</p>
+                            <div class="vertical-line"></div>
+                            <p><i class="fa-sharp fa-regular fa-thumbs-up"></i>@Course?.LikesInNumers likes</p>
+                            <div class="vertical-line"></div>
+                            <p><i class="fa-sharp fa-regular fa-clock"></i>@Course?.Hours hours</p>
+                        }
+                    </div>
+
+                </div>
+
+                @if (Course?.Authors != null)
+                {
+                    <div class="author-list">
+                        <span>Created by</span>
+                        @foreach (var author in Course.Authors)
+                        {
+                            <div class="content">
+                                <img class="author-image" src="@Course.ImageUri" alt="@($"{author.FirstName} {author.LastName}")" />
+                                <p>@($"{author.FirstName} {author.LastName}")</p>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @*                 @if (Course?.Authors != null && Course.Authors.Any())
+                {
+                <div class="author-list">
+                <div class="author-image">
+                <img class="author-image" src="@Course.ImageAuthor" />
+                </div>
+                <div class="content">
+                <span>Created by</span>
+                @foreach (var author in Course.Authors)
+                {
+                <p>@author.FirstName @author.LastName</p>
+                }
+                </div>
+                </div>
+                } *@
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public FullCourseModel? Course { get; set; }
+
+}
