@@ -56,7 +56,7 @@
                         {
                             <p>(@Course?.Reviews reviews)</p>
                             <div class="vertical-line"></div>
-                            <p><i class="fa-sharp fa-regular fa-thumbs-up"></i>@Course?.LikesInNumers likes</p>
+                            <p><i class="fa-sharp fa-regular fa-thumbs-up"></i>@Course?.Likes likes</p>
                             <div class="vertical-line"></div>
                             <p><i class="fa-sharp fa-regular fa-clock"></i>@Course?.Hours hours</p>
                         }
@@ -107,6 +107,6 @@
 
 @code {
     [Parameter]
-    public FullCourseModel? Course { get; set; }
+    public CourseData? Course { get; set; }
 
 }

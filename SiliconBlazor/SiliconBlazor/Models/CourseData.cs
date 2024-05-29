@@ -31,8 +31,8 @@ public class Author
 public class PriceData
 {
     public string? Currency { get; set; }
-    public double Price { get; set; }
-    public double Discount { get; set; }
+    public decimal Price { get; set; }
+    public decimal Discount { get; set; }
 }
 public class ContentData
 {

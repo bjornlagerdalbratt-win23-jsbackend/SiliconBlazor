@@ -1,7 +1,7 @@
 ﻿<div class="description-content mb-5">
     <h2>Course Description</h2>
     <p class="p-description">
-        @Course?.Description
+        @Course?.Content?.Description
     </p>
     <h3>What you'll learn</h3>
     <div class="description-list">
@@ -31,6 +31,6 @@
 
 @code {
     [Parameter]
-    public FullCourseModel? Course { get; set; }
+    public CourseData? Course { get; set; }
 
 }

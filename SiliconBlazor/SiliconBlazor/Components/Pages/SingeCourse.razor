@@ -5,32 +5,32 @@
 
 <section class="single-course">
    
-    @if (course == null)
+    @if (Course == null)
     {
         <p class="loading">Loading course...</p>
         <div><i class="fa-sharp sa-solid fa-spinner-third fa-spin"></i></div>
     }
     else
     {
-        <SingleCourseHeader Course="@course" />
+        <SingleCourseHeader Course="@Course" />
 
         <div class="container">
             <div class="grid-container-course">
                 <section class="section-description">
-                    <SingleCourseDescription Course="@course" />
+                    <SingleCourseDescription Course="@Course" />
                 
                 </section>
 
                 <section class="aside">
-                    <SingleCourseAside Course="@course" />
+                    <SingleCourseAside Course="@Course" />
                 </section>
 
                 <section class="program">
-                    <SingleCourseProgram Course="@course" />
+                    <SingleCourseProgram Course="@Course" />
                 </section>
 
                 <section class="bottom">
-                    <SingleCourseBottom Course="@course" />
+                    <SingleCourseBottom Course="@Course" />
                 </section>
             </div>
         </div>  
@@ -42,7 +42,11 @@
     [Parameter]
     public string? Id { get; set; }
 
-    public FullCourseModel? course;
+    public CourseData? Course;
+
+    // public CourseData? course;
+
+
 
 
     protected override async Task OnInitializedAsync()
@@ -94,7 +98,7 @@
             //Tar emot datan - tilldelar värden till fullcoursemodel
             if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourseById", out var courseData))
             {
-                course = new FullCourseModel
+                Course = new CourseData
                     {
                         Id = courseData.Id,
                         IsBestSeller = courseData.IsBestSeller,
@@ -110,13 +114,20 @@
                             FirstName = author.FirstName,
                             LastName = author.LastName,
                         }).ToList(),
-                        Price = $"{courseData.Prices?.Currency} {courseData.Prices?.Price}",
-                        DiscountPrice = courseData.Prices?.Discount > 0
-                                    ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
-                                    : null,
-                        Content = GenerateContentString(courseData.Content),
+                        Prices = new PriceData
+                        {
+                            Currency = courseData.Prices?.Currency,
+                            Price = courseData.Prices?.Price ?? 0,
+                            Discount = courseData.Prices?.Discount ?? 0,
+                        },                                              
+                        Content = new ContentData {
+                            
+                            Description = GenerateContentString(courseData.Content),
+                            Includes = courseData.Content?.Includes,
+                            ProgramDetails = courseData.Content?.ProgramDetails                            
+                        },
                         Hours = courseData.Hours,
-                        LikesInNumers = courseData.Likes,
+                        Likes = courseData.Likes,
                         LikesInProcent = courseData.LikesInProcent,
                     };
             }
