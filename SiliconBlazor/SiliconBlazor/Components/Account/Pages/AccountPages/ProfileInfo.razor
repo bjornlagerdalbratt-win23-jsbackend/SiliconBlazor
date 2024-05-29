@@ -1,0 +1,99 @@
+﻿@attribute [StreamRendering]
+@using System.Net.Http.Headers
+@using Microsoft.EntityFrameworkCore
+@using SiliconBlazor.Services
+@inject HttpClient httpClient
+@inject UserProfileManager UserProfileManager
+
+
+@if (user == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="content-left">
+        <div class="avatar">
+            <img src="/images/uploads/profiles/avatar.png" alt="avatar image">
+
+            <EditForm FormName="fileForm" Model="FileModel" OnValidSubmit="HandleSubmit" enctype="multipart/form-data">
+                <InputFile id="fileUpload" OnChange="HandleSelectedFile" accept="image/*" class="form-control mb-3" hidden />
+                <label for="fileUpload"><i class="fa-solid fa-rotate-reverse"></i></label>
+                @* <button type="submit" class="btn btn-secondary w-100">UPLOAD</button> *@
+            </EditForm>
+
+        </div>
+        <div class="account-info">
+            <h5>@user.FirstName @user.LastName</h5>
+            <p>@user.Email</p>
+        </div>
+        <a class="btn-transparent"><i class="fa-regular fa-gear"></i>Account Details</a>
+        <a class="btn-transparent"><i class="fa-regular fa-lock"></i>Account Notification</a>
+        <a class="btn-transparent"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign Out</a>
+    </div>
+}
+
+
+@code {
+
+    private ApplicationUser user = default!;
+    private UserProfileManager _userProfileManager = default!;
+    private MultipartFormDataContent FileModel = new MultipartFormDataContent();
+    private IBrowserFile? selectedFile;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserDataAsync();
+
+    }
+
+    private void HandleSelectedFile(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task LoadUserDataAsync()
+    {
+       
+
+        
+    }
+
+    // private async Task LoadUserDataAsync()
+    // {
+    //     using var dbContext = DbContextFactory.CreateDbContext();
+    //     user = await dbContext.Users
+    //                           .Include(u => u.UserProfile)
+    //                           .FirstOrDefaultAsync(u => u.UserName == HttpContext.User.Identity.Name);
+    // }
+
+
+
+    private async Task HandleSubmit()
+    {
+        if (selectedFile != null)
+        {
+            using var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 15));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(fileContent, "file", selectedFile.Name);
+
+            try
+            {
+                var response = await httpClient.PostAsync("https://fileprovider-siliconapp.azurewebsites.net/api/Upload?code=EVZb6DsuFq4E9-ccuDMCHZi0-SNofCeud3WTffIhadVbAzFuPiZJEQ%3D%3D&containerName=profiles", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    StateHasChanged();
+                    Console.WriteLine("Worked");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error");
+            }
+        }
+    }
+}

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using SiliconBlazor.Components;
 using SiliconBlazor.Components.Account;
 using SiliconBlazor.Data;
+using SiliconBlazor.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,11 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<UserProfileManager>();
+builder.Services.AddScoped<UserAddressManager>();
+
+
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddSingleton(sp =>
 {
@@ -36,8 +43,11 @@ builder.Services.AddHttpClient();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+//Changed AddDbContext => AddDbContextPoolFactory, change back before merge!!!! 
+
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
@@ -50,6 +60,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+  
 
 var app = builder.Build();
 

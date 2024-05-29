@@ -1,0 +1,83 @@
+.account-details {
+    margin-top: 6rem;
+    height: 100%;
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        justify-content: center;
+        height: 100%;
+        gap: 3rem 4rem;
+
+        h1 {
+            text-align: left;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1rem !important;
+        }
+
+        .content-right {
+            max-width: 856px;
+            grid-column: 5 / span 8;
+
+            h5 {
+                color: #6366F1;
+            }
+
+            label {
+                font-weight: 700;
+
+                span {
+                    color: #D4D7E5;
+                }
+            }
+
+            input {
+
+                &:focus {
+                    box-shadow: none;
+                    border: 1px solid #6366F1;
+                }
+
+                &::placeholder {
+                    opacity: .4;
+                }
+            }
+
+            textarea {
+                &::placeholder {
+                    opacity: .4;
+                }
+            }
+
+            .buttons {
+                display: flex;
+                margin-bottom: 3rem;
+                gap: 1rem;
+                margin-top: 1.5rem;
+
+                .btn-theme-s {
+                    border: 1px solid #6366F1;
+                }
+            }
+
+            .error {
+                padding: .5rem;
+                color: #EF4444;
+            }
+
+            .bottom-form {
+                border-top: 1px #E2E5F1 solid;
+                padding-top: 2rem;
+                padding-bottom: 4rem;
+
+                .error {
+                    padding: .5rem;
+                    color: #EF4444;
+                }
+            }
+        }
+    }
+}
