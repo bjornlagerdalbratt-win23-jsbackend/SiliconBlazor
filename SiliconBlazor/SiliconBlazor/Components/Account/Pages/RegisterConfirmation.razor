@@ -61,8 +61,8 @@
         var result = await Http.PostAsJsonAsync("https://silicon-verificationprovider.azurewebsites.net/api/validate?code=P5zFtmUdfpRlvimQQDjx31xOf0X1MLiA9LOEhdp2la3NAzFuK_2URA==", new { Email = Email, Code = VerifyCodeForm.Code });
         if (result.IsSuccessStatusCode)
         {
-            var user = await UserManager.FindByEmailAsync(Email);
-            user.EmailConfirmed = true;
+            var user = await UserManager.FindByEmailAsync(Email!);
+            user!.EmailConfirmed = true;
             await UserManager.UpdateAsync(user);
 
             // Navigate to Login

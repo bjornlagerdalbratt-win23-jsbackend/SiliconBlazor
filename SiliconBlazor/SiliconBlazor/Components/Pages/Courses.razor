@@ -1,8 +1,6 @@
 ﻿@page "/courses"
 @using Newtonsoft.Json
 @using static System.Net.WebRequestMethods
-@* @using Newtonsoft.Json
-@using static System.Net.WebRequestMethods *@
 @attribute [StreamRendering]
 @attribute [Authorize]
 
@@ -12,18 +10,25 @@
 <section class="courses">
 
     <div class="container">
-
         <div class="header">
             <h1>Courses</h1>
-            <form id="form-filters">
-                <select>
+            <div id="form-filters">
+                <select name="categories" id="categories">
                     <option>All Categories</option>
+
+                    @foreach(var category in GetUniqueCategories())
+                    {
+                        <option value="@category">@category</option>
+                    }
+
                 </select>
+
+
                 <div class="input-search-group">
                     <input id="searchQuery" name="searchQuery" placeholder="Search courses" />
                     <i class="fa-regular fa-search"></i>
                 </div>
-            </form>
+            </div>
         </div>
 
         <div class="course-items">
@@ -36,11 +41,10 @@
             {
                 foreach (var course in courses)
                 {
-                    var link = $"courses/details/{course.Id}";
-                    <a href="@link" asp.route-id="@course.Id" class="course">
+                    <NavLink class="course" href="@($"/course/{course.Id}")">
                         @if (course.IsBestSeller)
                         {
-                            <div class="bestseller">Best Seller</div>
+                            <div class="bestseller">@course.IsBestSeller</div>
                         }
 
                         <span class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></span>
@@ -67,7 +71,7 @@
                             </div>
 
                         </div>
-                    </a>
+                    </NavLink>
                 }
             }
         </div>
@@ -109,11 +113,12 @@
                     hours
                     likesInProcent
                     likes
+                    categories
                 }
             }"
             };
 
-          var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+        var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
 
         if (response.IsSuccessStatusCode)
         {
@@ -135,7 +140,8 @@
                                 : null,
                         Hours = courseData.Hours,
                         LikesInNumbers = courseData.Likes,
-                        LikesInProcent = courseData.LikesInProcent
+                        LikesInProcent = courseData.LikesInProcent,
+                        Categories = courseData.Categories
                     }).ToList();
             }
             else
@@ -149,195 +155,19 @@
             Console.WriteLine($"Error: {response.StatusCode}");
             Console.WriteLine($"Error Content: {errorContent}");
         }
-
-
-
-
     }
 
-
-
-
-
-
-
-
-
-
-
-
-       
-
-
-        //     try
-        //     {
-        //         var courses = await Http.GetFromJsonAsync<CourseCardModel[]>(Environment.GetEnvironmentVariable("COURSES_URI"));
-
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Console.WriteLine($"Error fetching courses: {ex.Message}");
-        //     }
-
-
-        // }
-
-        //       private class CourseCardModel
-        //         {
-        //         public string? Id { get; set; }
-        //         public bool IsBestSeller { get; set; }
-        //         public string? ImageUri { get; set; }
-        //         public string? Title { get; set; }
-        //         public string? Author { get; set; }
-        //         public string? Price { get; set; }
-        //         public string? DiscountPrice { get; set; }
-        //         public string? Hours { get; set; }
-        //         public string? LikesInNumbers { get; set; }
-        //         public string? LikesInProcent { get; set; }
-
-        //         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // var query = new GraphQLQuery { Query = "{ getCourses { id isBestseller title authors {name} categories prices { price discount } hours likesInProcent likes }}" };
-
-    //     var query = new GraphQLQuery
-    //         {
-    //             Query = @"
-    //         {
-    //             getCourses {
-    //                 id
-    //                 isBestSeller
-    //                 title
-    //                 authors {
-    //                     firstName
-    //                     lastName
-    //                 }
-    //                 prices {
-    //                     currency
-    //                     price
-    //                     discount
-    //                 }
-    //                 hours
-    //                 likesInProcent
-    //                 likes
-    //             }
-    //         }"
-    //         };
-
-
-    //     try
-    //     {
-    //         var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
-
-    //         if(response.IsSuccessStatusCode)
-    //         {
-    //             var result = await response.Content.ReadFromJsonAsync<DynamicGraphQLResponse>();
-
-    //             courses = result?.Data.GetProperty("getCourses").EnumerateArray()
-    //                 .Select(course => new CourseCardModel
-    //                     {
-    //                         Id = course.GetProperty("id").GetString(),
-    //                         IsBestSeller = course.GetProperty("isBestSeller").GetBoolean(),
-    //                         ImageUri = course.GetProperty("imageUri").GetString(),
-    //                         Title = course.GetProperty("title").GetString()!,
-
-
-    //                         Author = string.Join(", ", course.GetProperty("authors")
-    //                             .EnumerateArray()
-    //                             .Select(author => $"{author.GetProperty("firstName").GetString()} {author.GetProperty("lastName").GetString()}")),
-
-
-    //                         Price = $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble()}",
-    //                         DiscountPrice = course.GetProperty("prices").GetProperty("discount").GetDouble() > 0
-    //                             ? $"{course.GetProperty("prices").GetProperty("currency").GetString()} {course.GetProperty("prices").GetProperty("price").GetDouble() - course.GetProperty("prices").GetProperty("discount").GetDouble()}"
-    //                             : null,
-    //                         Hours = course.GetProperty("hours").ToString(),
-    //                         LikesInProcent = course.GetProperty("likesInProcent").GetString(),
-    //                         LikesInNumbers = course.GetProperty("likes").GetString(),
-    //                     })
-    //                 .ToList();
-    //         }
-    //         else
-    //         {
-    //             var errorContent = await response.Content.ReadAsStringAsync();
-    //             Console.WriteLine($"Error: {response.StatusCode}");
-    //             Console.WriteLine($"Error Content: {errorContent}");
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"Exception: {ex.Message}");
-    //     }
-    // }
-
-
-    // private string GetAuthorsString(List<JsonElement> authors)
-    // {
-    //     //returns empty string if no author
-    //     if (authors == null || authors.Count == 0)
-    //     {
-    //         return string.Empty;
-    //     }
-    //     // Skapa en lista för att lagra strängrepresentationen av varje författare
-    //     List<string> authorNames = new List<string>();
-
-    //     // Loopa igenom varje författare och extrahera förnamn och efternamn
-    //     foreach (var author in authors)
-    //     {
-    //         // Kontrollera om både "firstName" och "lastName" finns i JSON-elementet
-    //         if (author.TryGetProperty("firstName", out var firstNameProperty) &&
-    //             author.TryGetProperty("lastName", out var lastNameProperty))
-    //         {
-    //             // Hämta förnamn och efternamn om de finns och inte är null
-    //             string firstName = firstNameProperty.GetString()!;
-    //             string lastName = lastNameProperty.GetString()!;
-
-    //             // Kontrollera att både förnamn och efternamn inte är null innan de läggs till i listan
-    //             if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
-    //             {
-    //                 authorNames.Add($"{firstName} {lastName}");
-    //             }
-    //         }
-    //     }
-
-    //     return string.Join(", ", authorNames);
-    // }
-
+    //Metod som samlar och returnerar en uppsättning av unika kategorirer från listan över kurser.
+    private IEnumerable<string> GetUniqueCategories()
+    {
+        return courses?
+        //Returnerar tom uppsättning om null
+        //SelectMany projicerar varje kurs till en sekvens av kategorier från alla kurser.
+            .SelectMany(courses => courses.Categories ?? new List<String>())
+            //efter uppsamling av alla kategorier, 
+            // anv Distinct för att ta bort ev duplicerande kategorier och behåller nedast unika.
+            .Distinct() ?? Enumerable.Empty<string>();
+    }
 
 
     }

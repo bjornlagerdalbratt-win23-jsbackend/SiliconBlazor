@@ -1,0 +1,21 @@
+﻿.grid-container-course {
+  display: grid;
+  grid-template-areas: 
+      "includes" 
+      "description" 
+      "program" 
+      "includes" 
+      "bottom";
+  margin-top: 3rem;
+}
+
+@media (min-width: 992px) {
+  .grid-container-course {
+    display: grid;
+    grid-template-areas: 
+        "description includes"
+        "program includes" 
+        "bottom bottom";
+    margin-top: 3rem;
+  }
+}

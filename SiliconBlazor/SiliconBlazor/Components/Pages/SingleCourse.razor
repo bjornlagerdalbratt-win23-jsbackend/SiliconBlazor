@@ -1,37 +1,140 @@
-﻿@page "/singlecourse"
+﻿@page "/course/{id}"
+@using Newtonsoft.Json
+
+<PageTitle>Course Details</PageTitle>
 
 <section class="single-course">
+   
+    @if (course == null)
+    {
+        <p class="loading">Loading course...</p>
+        <div><i class="fa-sharp sa-solid fa-spinner-third fa-spin"></i></div>
+    }
+    else
+    {
+        <SingleCourseHeader Course="@course" />
 
-        <SingleCourseHeader />
+        <div class="container">
+            <div class="grid-container-course">
+                <section class="section-description">
+                    <SingleCourseDescription Course="@course" />
+                
+                </section>
 
-    <div class="container">
-        <div class="grid-container-course">
-            <section class="section-description">
-                <SingleCourseDescription /> 
-            </section>
-        
-            <section class="aside">
-                <SingleCourseAside />
-            </section>
+                <section class="aside">
+                    <SingleCourseAside Course="@course" />
+                </section>
 
-            <section class="program">
-                <SingleCourseProgram />
-            </section>
+                <section class="program">
+                    <SingleCourseProgram Course="@course" />
+                </section>
 
-
-
-            <section class="bottom">
-                <SingleCourseBottom />
-            </section>
-        </div>
-
-
-
-    </div>
-
-
+                <section class="bottom">
+                    <SingleCourseBottom Course="@course" />
+                </section>
+            </div>
+        </div>  
+    }
 </section>
 
-@code {
 
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    public FullCourseModel? course;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var query = new GraphQLQuery
+            {
+                Query = @"
+            query ($id: String!) {
+                getCourseById(id: $id) {
+                    id 
+                    title 
+                    imageHeaderUri 
+                    isBestSeller 
+                    isDigital 
+                    ingress 
+                    starRating 
+                    reviews 
+                    likes 
+                    hours 
+                    imageUri 
+                    authors 
+                    { 
+                        firstName lastName 
+                    } 
+                    content 
+                    { 
+                        description 
+                    programDetails 
+                    { 
+                        title description
+                    } 
+                    includes } 
+                    prices 
+                    { 
+                        currency price discount
+                    }}}",
+                Variables = new { Id = Id }
+            };
+
+
+        var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, CourseData>>>(result);
+
+            //Tar emot datan - tilldelar värden till fullcoursemodel
+            if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourseById", out var courseData))
+            {
+                course = new FullCourseModel
+                    {
+                        Id = courseData.Id,
+                        IsBestSeller = courseData.IsBestSeller,
+                        IsDigital = courseData.IsDigital,
+                        Title = courseData.Title!,
+                        Ingress = courseData.Ingress,
+                        StarRating = courseData.StarRating,
+                        Reviews = courseData.Reviews,
+                        ImageHeaderUri = courseData.ImageHeaderUri,
+                        ImageUri = courseData.ImageUri,
+                        Authors = courseData.Authors?.Select(author => new Author
+                        {
+                            FirstName = author.FirstName,
+                            LastName = author.LastName,
+                        }).ToList(),
+                        Price = $"{courseData.Prices?.Currency} {courseData.Prices?.Price}",
+                        DiscountPrice = courseData.Prices?.Discount > 0
+                                    ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
+                                    : null,
+                        Content = GenerateContentString(courseData.Content),
+                        Hours = courseData.Hours,
+                        LikesInNumers = courseData.Likes,
+                        LikesInProcent = courseData.LikesInProcent,
+                    };
+            }
+        }
+    }
+
+    private string GenerateContentString(ContentData? content)
+    {
+        if (content == null)
+        {
+            return string.Empty;
+        }
+
+        var programDetails = content.ProgramDetails != null
+            ? string.Join(", ", content.ProgramDetails.Select(pd => $"{pd.Title}: {pd.Description}"))
+            : string.Empty;
+
+        return $"{content.Description} {programDetails}".Trim();
+    }
 }
+

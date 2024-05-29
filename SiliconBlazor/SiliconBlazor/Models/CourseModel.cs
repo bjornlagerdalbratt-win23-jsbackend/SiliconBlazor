@@ -6,7 +6,6 @@ public class CourseModel
     public string? ImageUri { get; set; }
     public string? ImageHeaderUri { get; set; }
     public bool IsBestSeller { get; set; }
-    public string? Image { get; set; }
     public string Title { get; set; } = null!;
     public string? Author { get; set; }
     public string? Price { get; set; }
@@ -14,5 +13,5 @@ public class CourseModel
     public string? Hours { get; set; }
     public string? LikesInNumers { get; set; }
     public string? LikesInProcent { get; set; }
+    public List<string>? Categories { get; set; } // Lägg till denna rad
 }
-

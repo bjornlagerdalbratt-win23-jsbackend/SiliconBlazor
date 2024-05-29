@@ -12,5 +12,6 @@ public class CourseCardModel
     public string? Hours { get; set; }
     public string? LikesInNumbers { get; set; }
     public string? LikesInProcent { get; set; }
+    public List<string>? Categories { get; set; } // Lägg till denna rad
 }
 
