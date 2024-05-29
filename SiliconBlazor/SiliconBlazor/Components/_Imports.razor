@@ -22,7 +22,11 @@
 @using Azure.Messaging.ServiceBus
 @using System.Text.Json
 @using SiliconBlazor.ViewModels
+@using SiliconBlazor.Models
 @using Microsoft.AspNetCore.Authentication
+@using System.Text.Json.Serialization
+
+
 
 @inject HttpClient Http
 @inject UserManager<ApplicationUser> UserManager
@@ -44,7 +48,6 @@
 @inject IdentityRedirectManager RedirectManager
 
 @inject ApplicationDbContext ApplicationDbContext
-
 
 
 

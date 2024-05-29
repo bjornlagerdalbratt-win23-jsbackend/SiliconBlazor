@@ -1,4 +1,5 @@
 ﻿@page "/courses"
+@using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize]
 @attribute [StreamRendering]
@@ -117,7 +118,7 @@
         if (response.IsSuccessStatusCode)
         {
             var result = await response.Content.ReadAsStringAsync();
-            var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, List<CourseData>>>>(result);
+            var graphQLResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, List<CourseData>>>>(result);
 
             if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourses", out var courseList))
             {
