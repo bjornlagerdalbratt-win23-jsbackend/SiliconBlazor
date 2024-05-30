@@ -4,11 +4,11 @@
     "inputFile": "wwwroot/app.scss"
   },
   {
-    "outputFile": "Components/Admin/AdminPortal.razor.css",
-    "inputFile": "Components/Admin/AdminPortal.razor.scss"
+    "outputFile": "Components/Account/Pages/AccountPages/AccountDetails.razor.css",
+    "inputFile": "Components/Account/Pages/AccountPages/AccountDetails.razor.scss"
   },
   {
-    "outputFile": "Components/Pages/AdminPortal.razor.css",
-    "inputFile": "Components/Pages/AdminPortal.razor.scss"
+    "outputFile": "Components/TestFolder/Test.razor.css",
+    "inputFile": "Components/TestFolder/Test.razor.scss"
   }
 ]

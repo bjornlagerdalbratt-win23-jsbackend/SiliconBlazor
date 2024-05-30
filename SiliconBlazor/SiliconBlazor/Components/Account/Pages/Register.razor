@@ -95,17 +95,7 @@
 
     public async Task OnValidSubmit(EditContext editContext)
     {
-        var user = new ApplicationUser
-            {
-                UserProfile = new UserProfile
-                {
-                    FirstName = SignUpForm.FirstName,
-                    LastName = SignUpForm.LastName,
-
-                },
-                UserName = SignUpForm.Email,
-                Email = SignUpForm.Email
-            };
+        var user = new ApplicationUser { FirstName = SignUpForm.FirstName, LastName = SignUpForm.LastName, Email = SignUpForm.Email, UserName = SignUpForm.Email };
 
         try
         {
