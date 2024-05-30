@@ -4,8 +4,8 @@
     gap: 150px;
     margin-bottom: 70px;
 
-    aside {
-        border-right: 1px solid white;
+    .aside {
+        border-right: 1px solid #D4D7E5;
         padding-right: 20px;
 
         .profile-info {
@@ -45,11 +45,19 @@
         nav {
             margin-top: 50px;
             text-align: left;
+            display: grid;
+            gap: 20px;
 
-            a {
+
+            .menu-link {
                 margin: 10px 0;
                 text-align: left;
                 justify-content: flex-start;
+
+            }
+
+            span {
+                color: #565973;
             }
 
             .btn-theme-s {

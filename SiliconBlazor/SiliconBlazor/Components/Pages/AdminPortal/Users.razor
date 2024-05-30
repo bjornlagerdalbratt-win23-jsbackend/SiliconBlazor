@@ -4,113 +4,58 @@
 @using Microsoft.EntityFrameworkCore
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
-@inject ApplicationDbContext DbContext
+@attribute [StreamRendering]
+
+<div class="col-mb3">
+    <AdminPortal />
+</div>
 
 <div class="container">
     <div class="users">
         <h1>Users</h1>
         <div class="user-list">
-            @foreach (var user in users)
+            @if (users != null && users.Any())
             {
-                <EditForm Model="user" OnValidSubmit="() => UpdateUser(user)">
-                    <div class="user-item">
-                        <label>Role ID:</label>
-                        <InputText @bind-Value="user.RoleId" />
-                        <label>First Name:</label>
-                        <InputText @bind-Value="user.FirstName" />
-                        <label>Last Name:</label>
-                        <InputText @bind-Value="user.LastName" />
-                        <label>Email:</label>
-                        <InputText @bind-Value="user.Email" />
-                        <div class="actions">
-                            <button class="btn btn-update" type="submit">Update</button>
-                            <button class="btn btn-delete" @onclick="() => DeleteUser(user.Id)">Delete</button>
+                @foreach (var user in users)
+                {
+                    <EditForm FormName="userform" Model="user">
+                        <div class="user-item">
+                            <label>First Name:</label>
+                            <InputText @bind-Value="user.FirstName" />
+                            <label>Last Name:</label>
+                            <InputText @bind-Value="user.LastName" />
+                            <label>Email:</label>
+                            <InputText @bind-Value="user.Email" />
+                            <NavLink href="/account/resetpassword">Reset password for user</NavLink>
+                            <div class="actions">
+                                <button class="btn btn-update" type="submit">Update</button>
+                                <button class="btn btn-delete" type="submit">Delete</button>
+                            </div>
                         </div>
-                    </div>
-                </EditForm>
+                    </EditForm>
+                }
+            }
+            else
+            {
+                <p>No users found.</p>
             }
         </div>
     </div>
 </div>
 
+
+
+
+
+
 @code {
-    private List<UserModel> users = new List<UserModel>();
+    private ApplicationUser[]? users;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadUsers();
+        users = await Http.GetFromJsonAsync<ApplicationUser[]>("http://localhost:7142/api/GetUsers");
+        
     }
 
-    private async Task LoadUsers()
-    {
-        var applicationUsers = await UserManager.Users.ToListAsync();
-        users = new List<UserModel>();
-
-        foreach (var appUser in applicationUsers)
-        {
-            var userProfile = await DbContext.UserProfiles.FindAsync(appUser.UserProfileId);
-            users.Add(new UserModel
-                {
-                    Id = appUser.Id,
-                    FirstName = userProfile?.FirstName ?? "",
-                    LastName = userProfile?.LastName ?? "",
-                    Email = appUser.Email,
-                    RoleId = appUser.Id // Adjust if you have a separate role ID
-                });
-        }
-    }
-
-    private async Task UpdateUser(UserModel userModel)
-    {
-        var user = await UserManager.FindByIdAsync(userModel.Id);
-        if (user != null)
-        {
-            user.Email = userModel.Email;
-            if (user.UserProfile != null)
-            {
-                user.UserProfile.FirstName = userModel.FirstName;
-                user.UserProfile.LastName = userModel.LastName;
-            }
-
-            var result = await UserManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                // Handle success
-            }
-            else
-            {
-                // Handle failure
-            }
-        }
-    }
-
-    private async Task DeleteUser(string userId)
-    {
-        var user = await UserManager.FindByIdAsync(userId);
-        if (user != null)
-        {
-            var result = await UserManager.DeleteAsync(user);
-            if (result.Succeeded)
-            {
-                users.RemoveAll(u => u.Id == userId);
-            }
-            else
-            {
-                // Handle failure
-            }
-        }
-    }
-
-    public class UserModel
-    {
-        public string Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string RoleId { get; set; } // Adjust if you have a separate role ID
-    }
-
-
-
-    // FORNAME
+   
 }

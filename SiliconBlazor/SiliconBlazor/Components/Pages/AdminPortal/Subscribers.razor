@@ -1,0 +1,72 @@
+﻿@page "/adminportal/subscribers"
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@attribute [StreamRendering]
+
+<div class="col-mb3">
+    <AdminPortal />
+</div>
+
+<div class="container">
+    <div class="Subscribers">
+        <h1>Subscribers</h1>
+        <div class="subscriber-list">
+            @if (subscribers != null && subscribers.Any())
+            {
+                @foreach (var subscriber in subscribers)
+                {
+                    <EditForm FormName="subscriberform" Model="subscriber">
+                        <div class="subscriber-item">
+                            <label>Email:</label>
+                            <InputText @bind-Value="subscriber.Email" />
+                            <div class="actions">
+                                <button class="btn btn-update" type="submit">Update</button>
+                                <button class="btn btn-delete" type="submit">Delete</button>
+                            </div>
+                            <label>Daily Newsletter</label>
+                            <InputCheckbox @bind-Value="subscriber.DailyNewsletter"></InputCheckbox>
+                            <label>AdvertisingUpdates</label>
+                            <InputCheckbox @bind-Value="subscriber.AdvertisingUpdates"></InputCheckbox>
+                            <label>WeekInReview</label>
+                            <InputCheckbox @bind-Value="subscriber.WeekInReview"></InputCheckbox>
+                            <label>EventUpdates</label>
+                            <InputCheckbox @bind-Value="subscriber.EventUpdates"></InputCheckbox>
+                            <label>StartupsWeekly</label>
+                            <InputCheckbox @bind-Value="subscriber.StartupsWeekly"></InputCheckbox>
+                            <label>Podcasts</label>
+                            <InputCheckbox @bind-Value="subscriber.Podcasts"></InputCheckbox>
+
+                        </div>
+                    </EditForm>
+                }
+            }
+            else
+            {
+                <p>Loading...</p>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private Subscriber[]? subscribers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        subscribers = await Http.GetFromJsonAsync<Subscriber[]>("https://silicon-newsletterprovider.azurewebsites.net/api/GetAllSubscribers?code=9TTAiRMrIzUswqpQB3anruTZrOb53bRINwlfFA1_C952AzFugPdsZA%3D%3D");
+    }
+
+
+
+    public class Subscriber
+    {
+        public string Email { get; set; } = null!;
+        public bool DailyNewsletter { get; set; }
+        public bool AdvertisingUpdates { get; set; }
+        public bool WeekInReview { get; set; }
+        public bool EventUpdates { get; set; }
+        public bool StartupsWeekly { get; set; }
+        public bool Podcasts { get; set; }
+    }
+}
