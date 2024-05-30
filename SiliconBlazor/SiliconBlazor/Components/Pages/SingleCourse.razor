@@ -28,9 +28,9 @@
                     <SingleCourseProgram Course="@Course" />
                 </section>
 
-                <section class="bottom">
+@*                 <section class="bottom">
                     <SingleCourseBottom Course="@Course" />
-                </section>
+                </section> *@
             </div>
         </div>  
     }
@@ -87,7 +87,7 @@
             };
 
 
-        var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
+        var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
 
         if (response.IsSuccessStatusCode)
         {

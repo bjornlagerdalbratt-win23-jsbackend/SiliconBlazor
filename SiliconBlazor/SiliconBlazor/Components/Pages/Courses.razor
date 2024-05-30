@@ -40,11 +40,10 @@
                 foreach (var course in courses)
                 {
                     <NavLink class="course" href="@($"/course/{course.Id}")">
-                        @if (course.IsBestSeller)
+                        @if (course.IsBestSeller == true)
                         {
-                            <div class="bestseller">@course.IsBestSeller</div>
+                            <div class="bestseller">Is Bestseller</div>
                         }
-
                         <span class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></span>
 
                         <img src="@course.ImageUri" alt="@course.Title" />
