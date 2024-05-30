@@ -40,6 +40,7 @@ public class ContentData
 {
     public string? Description { get; set; }
     public string[]? Includes { get; set; }
+    public string[]? Learnings { get; set; }
     public virtual List<ProgramDetailItemData>? ProgramDetails { get; set; }
 }
 public class ProgramDetailItemData

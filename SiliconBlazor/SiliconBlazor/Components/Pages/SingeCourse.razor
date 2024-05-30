@@ -57,39 +57,42 @@
                 Query = @"
             query ($id: String!) {
                 getCourseById(id: $id) {
-                    id 
-                    title 
-                    imageHeaderUri 
-                    imageAuthor
-                    isBestSeller 
-                    isDigital 
-                    ingress 
-                    starRating 
-                    reviews 
-                    likes 
-                    hours 
-                    imageUri 
-                    authors 
-                    { 
-                        firstName lastName
-                    } 
-                    content 
-                    { 
-                        description 
-                    programDetails 
-                    { 
-                        title description
-                    } 
-                    includes } 
-                    prices 
-                    { 
-                        currency price discount
-                    }}}",
+                        id
+                        title
+                        imageHeaderUri
+                        imageAuthor
+                        isBestSeller
+                        isDigital
+                        ingress
+                        starRating
+                        reviews
+                        likes
+                        hours
+                        authors {
+                          firstName
+                          lastName
+                        }
+                        content {
+                          description
+                          learnings
+                          includes
+                          programDetails {
+                            title
+                            description
+                          }
+                        }
+                        prices {
+                          currency
+                          price
+                          discount
+                        }
+                      }
+}",
                 Variables = new { Id = Id }
             };
 
 
-        var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
+        var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
 
         if (response.IsSuccessStatusCode)
         {
@@ -109,7 +112,6 @@
                         StarRating = courseData.StarRating,
                         Reviews = courseData.Reviews,
                         ImageHeaderUri = courseData.ImageHeaderUri,
-                        ImageUri = courseData.ImageUri,
                         ImageAuthor = courseData.ImageAuthor,
                         Authors = courseData.Authors?.Select(author => new Author
                         {
@@ -126,6 +128,7 @@
                             
                             Description = GenerateContentString(courseData.Content),
                             Includes = courseData.Content?.Includes,
+                            Learnings = courseData.Content?.Learnings,
                             ProgramDetails = courseData.Content?.ProgramDetails                            
                         },
                         Hours = courseData.Hours,
