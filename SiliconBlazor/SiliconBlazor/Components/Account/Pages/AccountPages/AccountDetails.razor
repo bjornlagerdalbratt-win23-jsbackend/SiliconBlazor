@@ -4,6 +4,7 @@
 
 @rendermode InteractiveServer
 
+@using Microsoft.EntityFrameworkCore
 @using SiliconBlazor.Services
 @inject UserAddressManager UserAddressManager
 @inject UserService UserService
@@ -16,7 +17,7 @@
         <ProfileInfo />
 
         <div class="content-right">
-            <EditForm FormName="basicinfo" method="post" Model="BasicInfoForm" novalidate class="row g-3 needs-validation top-form">
+            <EditForm FormName="basicinfo" method="post" Model="BasicInfoForm" OnValidSubmit="HandleBasicFormSubmit" novalidate class="row g-3 needs-validation top-form">
                 <DataAnnotationsValidator />
                 <h1>Account Details</h1>
                 <h5>Basic Info</h5>
@@ -47,7 +48,7 @@
                 </div>
             </EditForm>
 
-            <EditForm FormName="addressinfo" method="post" Model="AddressInfoForm" novalidate class="row g-3 needs-validation bottom-form">
+            <EditForm FormName="addressinfo" method="post" Model="AddressInfoForm" OnValidSubmit="HandleAddressFormSubmit" novalidate class="row g-3 needs-validation bottom-form">
                 <DataAnnotationsValidator />
                 <h5>Address</h5>
                 <div class="col-12" id="input-group-1">
@@ -80,6 +81,8 @@
 @code {
 
     private ApplicationUser user = default!;
+    private string? notificationMessage;
+    private string? notificationClass;
 
 
     [SupplyParameterFromForm(FormName = "basicinfo")]
@@ -101,12 +104,67 @@
         BasicInfoForm.PhoneNumber = user.PhoneNumber;
         BasicInfoForm.Bio = user.Bio;
 
-        var addressInfo = await UserAddressManager.GetUserAddressAsync(user.Id);
-        AddressInfoForm = new AddressInfoModel { Addressline_1 = addressInfo.AddressLine_1!, Addressline_2 = addressInfo.AddressLine_2, PostalCode = addressInfo.PostalCode!, City = addressInfo.City! };
+        var addressInfo = await UserAddressManager.GetUserAddressAsync(user.UserAddressId);
+        AddressInfoForm = new AddressInfoModel { 
+            
+            Addressline_1 = addressInfo.AddressLine_1!, 
+            Addressline_2 = addressInfo.AddressLine_2, 
+            PostalCode = addressInfo.PostalCode!, 
+            City = addressInfo.City! 
+        };
 
     }
 
-   
+    private async Task HandleBasicFormSubmit()
+    {
+        if (user != null)
+        {
+            user.FirstName = BasicInfoForm.FirstName;
+            user.LastName = BasicInfoForm.LastName;
+            user.Email = BasicInfoForm.Email;
+            user.PhoneNumber = BasicInfoForm.PhoneNumber;
+            user.Bio = BasicInfoForm.Bio;
+
+            var result = await UserService.UpdateUserAsync(user);
+
+            if (result.Succeeded)
+            {
+                notificationMessage = "User details updated successfully!";
+                notificationClass = "alert-success";
+            }
+
+        }
+        else
+        {
+            //error message? 
+        }
+        //reload page
+        StateHasChanged();
+    }
+
+    private async Task HandleAddressFormSubmit()
+    {
+        if (user != null)
+        {
+            try
+            {
+                await UserAddressManager.UpdateAddressAsync(
+                    user.Id,
+                    AddressInfoForm.Addressline_1,
+                    AddressInfoForm.Addressline_2,
+                    AddressInfoForm.PostalCode,
+                    AddressInfoForm.City
+
+                );
+            }
+            catch (Exception ex)
+            {
+                //error
+            }
+
+        }
+        StateHasChanged();
+    }
 
 
     private sealed class BasicInfoModel

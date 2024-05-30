@@ -1,9 +1,12 @@
-﻿@attribute [StreamRendering]
+﻿
 @using System.Net.Http.Headers
 @using Microsoft.EntityFrameworkCore
 @using SiliconBlazor.Services
+
+@rendermode InteractiveServer
+
 @inject HttpClient httpClient
-@inject UserProfileManager UserProfileManager
+@inject UserService UserService
 
 
 @if (user == null)
@@ -14,7 +17,7 @@ else
 {
     <div class="content-left">
         <div class="avatar">
-            <img src="/images/uploads/profiles/avatar.png" alt="avatar image">
+            <img src="@ProfileImage" alt="avatar image">
 
             <EditForm FormName="fileForm" Model="FileModel" OnValidSubmit="HandleSubmit" enctype="multipart/form-data">
                 <InputFile id="fileUpload" OnChange="HandleSelectedFile" accept="image/*" class="form-control mb-3" hidden />
@@ -36,16 +39,18 @@ else
 @code {
 
     private ApplicationUser user = default!;
-    private UserProfileManager _userProfileManager = default!;
     private MultipartFormDataContent FileModel = new MultipartFormDataContent();
     private IBrowserFile? selectedFile;
+    private string ProfileImage { get; set; }
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadUserDataAsync();
+        user = await UserService.GetUserAsync();
+
+        // ProfileImage = user.ProfileImage;
 
     }
 
@@ -53,22 +58,6 @@ else
     {
         selectedFile = e.File;
     }
-
-    private async Task LoadUserDataAsync()
-    {
-       
-
-        
-    }
-
-    // private async Task LoadUserDataAsync()
-    // {
-    //     using var dbContext = DbContextFactory.CreateDbContext();
-    //     user = await dbContext.Users
-    //                           .Include(u => u.UserProfile)
-    //                           .FirstOrDefaultAsync(u => u.UserName == HttpContext.User.Identity.Name);
-    // }
-
 
 
     private async Task HandleSubmit()
@@ -85,6 +74,10 @@ else
                 var response = await httpClient.PostAsync("https://fileprovider-siliconapp.azurewebsites.net/api/Upload?code=EVZb6DsuFq4E9-ccuDMCHZi0-SNofCeud3WTffIhadVbAzFuPiZJEQ%3D%3D&containerName=profiles", content);
                 if (response.IsSuccessStatusCode)
                 {
+
+                    var filePath = await response.Content.ReadAsStringAsync();
+                    await UpdateUserProfileImageAsync(filePath);
+                    ProfileImage = filePath;
                     StateHasChanged();
                     Console.WriteLine("Worked");
                 }
@@ -93,6 +86,21 @@ else
             {
                 Console.WriteLine("Error");
             }
+        }
+    }
+
+    private async Task UpdateUserProfileImageAsync(string filePath)
+    {
+        user.ProfileImage = filePath;
+        var result = await UserService.UpdateUserAsync(user);
+
+        if (result.Succeeded)
+        {
+            //success!
+        }
+        else
+        {
+            //sad error msg
         }
     }
 }
