@@ -18,7 +18,6 @@
             <div class="grid-container-course">
                 <section class="section-description">
                     <SingleCourseDescription Course="@Course" />
-                
                 </section>
 
                 <section class="aside">
@@ -43,10 +42,6 @@
     public string? Id { get; set; }
 
     public CourseData? Course;
-
-    // public CourseData? course;
-
-
 
 
     protected override async Task OnInitializedAsync()
@@ -99,7 +94,7 @@
             var result = await response.Content.ReadAsStringAsync();
             var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, CourseData>>>(result);
 
-            //Tar emot datan - tilldelar värden till fullcoursemodel
+            //Tar emot datan - tilldelar värden till coursedata
             if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourseById", out var courseData))
             {
                 Course = new CourseData
