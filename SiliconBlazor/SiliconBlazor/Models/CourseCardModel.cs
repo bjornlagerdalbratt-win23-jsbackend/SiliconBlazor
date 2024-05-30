@@ -4,6 +4,7 @@ public class CourseCardModel
 {
     public string? Id { get; set; }
     public bool IsBestSeller { get; set; }
+    public string? ImageAuthor { get; set; }
     public string? ImageUri { get; set; }
     public string? Title { get; set; }
     public string? Author { get; set; }

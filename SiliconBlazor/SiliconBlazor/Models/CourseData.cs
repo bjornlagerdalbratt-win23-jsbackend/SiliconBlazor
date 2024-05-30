@@ -12,6 +12,7 @@ public class CourseData
     public string? ImageHeaderUri { get; set; }
 
     public string? ImageUri { get; set; }
+    public string? ImageAuthor { get; set; }
     public List<Author>? Authors { get; set; }
     public PriceData? Prices { get; set; }
     public ContentData? Content { get; set; }
@@ -27,7 +28,6 @@ public class Author
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
-    public string? ImageUrl { get; set; }
 }
 
 public class PriceData

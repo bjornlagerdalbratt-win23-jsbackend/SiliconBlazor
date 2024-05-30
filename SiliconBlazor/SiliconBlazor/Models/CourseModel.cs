@@ -5,6 +5,7 @@ public class CourseModel
     public int Id { get; set; }
     public string? ImageUri { get; set; }
     public string? ImageHeaderUri { get; set; }
+    public string? ImageAuthor { get; set; }
     public bool IsBestSeller { get; set; }
     public string Title { get; set; } = null!;
     public string? Author { get; set; }

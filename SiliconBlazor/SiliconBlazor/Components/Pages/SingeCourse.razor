@@ -60,6 +60,7 @@
                     id 
                     title 
                     imageHeaderUri 
+                    imageAuthor
                     isBestSeller 
                     isDigital 
                     ingress 
@@ -70,7 +71,7 @@
                     imageUri 
                     authors 
                     { 
-                        firstName lastName 
+                        firstName lastName
                     } 
                     content 
                     { 
@@ -109,6 +110,7 @@
                         Reviews = courseData.Reviews,
                         ImageHeaderUri = courseData.ImageHeaderUri,
                         ImageUri = courseData.ImageUri,
+                        ImageAuthor = courseData.ImageAuthor,
                         Authors = courseData.Authors?.Select(author => new Author
                         {
                             FirstName = author.FirstName,
