@@ -6,7 +6,7 @@
         <div class="content mt-3">
             <div class="item">
                 <div class="item-icon">
-                    <i class="fa-sharp fa-regular fa-video"></i>
+
                 </div>
                 <div class="item-content">
 
@@ -21,11 +21,11 @@
                     }
 
                     <div class="pricing">
-                        @if (!string.IsNullOrEmpty(Course?.Prices?.Discount.ToString()))
+                        @if (Course?.Prices?.Discount != null && Course.Prices.Discount > 0)
                         {
                             <div class="discount">@Course.Prices.Discount.ToString()</div>
                         }
-                        <div class="price @(string.IsNullOrEmpty(Course?.Prices?.Discount.ToString()) ? "" : "discount-enabled")">@Course?.Prices?.Price</div>
+                        <div class="price @(Course?.Prices?.Discount != null && Course.Prices.Discount > 0 ? "discount-enabled" : "")">@Course?.Prices?.Price</div>
                     </div>
                 </div>
             </div>
