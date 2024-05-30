@@ -10,5 +10,9 @@
   {
     "outputFile": "Components/TestFolder/Test.razor.css",
     "inputFile": "Components/TestFolder/Test.razor.scss"
+  },
+  {
+    "outputFile": "Components/Pages/SingleCourse.razor.css",
+    "inputFile": "Components/Pages/SingleCourse.razor.scss"
   }
 ]

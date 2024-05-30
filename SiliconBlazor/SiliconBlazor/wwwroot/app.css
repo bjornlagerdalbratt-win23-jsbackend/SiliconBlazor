@@ -2676,6 +2676,8 @@ footer .container .social-media {
 }
 .section-description .description-content .p-description {
   margin-bottom: 3rem;
+  text-align: left;
+  padding-inline: 1.2rem;
 }
 .section-description .description-content h3 {
   line-height: 160%;
@@ -2690,6 +2692,9 @@ footer .container .social-media {
 .section-description .description-content .description-list {
   display: flex;
   flex-direction: column;
+  margin-inline: 2rem;
+  border: 1px solid #D4D7E5;
+  padding: 2rem;
 }
 .section-description .description-content .description-list .d-item {
   align-items: baseline;
@@ -2700,6 +2705,17 @@ footer .container .social-media {
 .section-description .description-content .description-list .d-item i {
   color: blue;
   align-items: baseline;
+}
+
+@media (min-width: 400px) {
+  .section-description .description-content .description-list {
+    margin-inline: 3rem;
+  }
+}
+@media (min-width: 556px) {
+  .section-description .description-content .description-list {
+    margin-inline: 6rem;
+  }
 }
 @media (min-width: 768px) {
   .section-description {
@@ -2722,6 +2738,7 @@ footer .container .social-media {
   }
   .section-description .description-content .p-description {
     margin-bottom: 3rem;
+    padding: 0;
   }
   .section-description .description-content h3 {
     line-height: 160%;
@@ -2736,6 +2753,7 @@ footer .container .social-media {
   .section-description .description-content .description-list {
     display: flex;
     flex-direction: column;
+    margin-inline: 6rem;
   }
   .section-description .description-content .description-list .d-item {
     align-items: baseline;
@@ -2746,6 +2764,11 @@ footer .container .social-media {
   .section-description .description-content .description-list .d-item i {
     color: blue;
     align-items: baseline;
+  }
+}
+@media (min-width: 400px) {
+  .section-description .description-content .description-list {
+    margin-inline: 0rem;
   }
 }
 .aside {
