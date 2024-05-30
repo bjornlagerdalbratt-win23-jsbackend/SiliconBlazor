@@ -18,6 +18,7 @@ public class CourseData
     public string? Hours { get; set; }
     public string? LikesInProcent { get; set; }
     public string? Likes { get; set; }
+    public string? Icon { get; set; }
 
     public List<string>? Categories { get; set; } // Lägg till denna rad
 }
