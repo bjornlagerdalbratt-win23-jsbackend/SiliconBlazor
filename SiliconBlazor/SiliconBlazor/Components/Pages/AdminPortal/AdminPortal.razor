@@ -1,0 +1,73 @@
+﻿@page "/adminportal"
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationDbContext DbContext
+
+@if (user == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <AuthorizeView>
+        <Authorized>
+            <div class="admin-portal">
+                <aside>
+                    <div class="profile-info">
+                        <div class="avatar">
+                            <div class="image">
+                                <img src="/Images/uploads/profiles/avatar.png"/>
+                            </div>
+                        </div>
+                        <h5>@userProfile.FirstName @userProfile.LastName</h5>
+                        <p>@user.Email</p>
+                    </div>
+
+                    <nav>
+                        <NavLink class="btn-theme-s" href="/adminportal">
+                            <i class="fa-regular fa-gear"></i>Admin Portal
+                        </NavLink>
+                        <NavLink class="btn-transparent" href="/adminportal/administrators">
+                            <i class="fa-solid fa-user-tie"></i><span>Administrators</span>
+                        </NavLink>
+                        <NavLink class="btn-transparent" href="/adminportal/users">
+                            <i class="fa-regular fa-user"></i><span>Users</span>
+                        </NavLink>
+                        <NavLink class="btn-transparent" href="/adminportal/subscribers">
+                            <i class="fa-regular fa-envelope"></i><span>Subscribers</span>
+                        </NavLink>
+                        <NavLink class="btn-transparent" href="/adminportal/courses">
+                            <i class="fa-solid fa-book"></i><span>Courses</span>
+                        </NavLink>
+                        <NavLink class="btn-transparent" href="/adminportal/chat">
+                            <i class="fa-regular fa-comment"></i><span>Chat</span>
+                        </NavLink>
+                    </nav>
+                </aside>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+}
+
+
+
+
+@code {
+    private ApplicationUser user = default!;
+
+    private UserProfile userProfile = default!;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserManager.GetUserAsync(HttpContext.User);
+        if (user != null && user.UserProfileId != null)
+        {
+            userProfile = await DbContext.UserProfiles.FindAsync(user.UserProfileId);
+        }
+    }
+}

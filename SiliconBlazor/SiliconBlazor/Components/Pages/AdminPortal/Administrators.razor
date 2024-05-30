@@ -1,0 +1,109 @@
+﻿@page "/adminportal/administrators"
+@inject HttpClient HttpClient
+
+<div class="container">
+    <div class="administrators">
+        <h1>Administrators</h1>
+        <button class="btn btn-create" @onclick="CreateAdmin">Create New Admin</button>
+        <div class="admin-list">
+            <EditForm Model="newAdmin" OnValidSubmit="HandleValidSubmit">
+                <div class="admin-item">
+                    <label>Role ID:</label>
+                    <InputText @bind-Value="newAdmin.RoleId" />
+                    <label>First Name:</label>
+                    <InputText @bind-Value="newAdmin.FirstName" />
+                    <label>Last Name:</label>
+                    <InputText @bind-Value="newAdmin.LastName" />
+                    <label>Email:</label>
+                    <InputText @bind-Value="newAdmin.Email" />
+                    <label>Password:</label>
+                    <InputText @bind-Value="newAdmin.Password" />
+                    <label>Confirm Password:</label>
+                    <InputText @bind-Value="newAdmin.ConfirmPassword" />
+                    <div class="actions">
+                        <button class="btn btn-submit" type="submit">Submit</button>
+                    </div>
+                </div>
+            </EditForm>
+            <h4>List of admins</h4>
+            @foreach (var admin in admins)
+            {
+                <EditForm Model="admin" OnValidSubmit="() => UpdateAdmin(admin)">
+                    <div class="admin-item">
+                        <label>Role ID:</label>
+                        <InputText @bind-Value="admin.RoleId" />
+                        <label>First Name:</label>
+                        <InputText @bind-Value="admin.FirstName" />
+                        <label>Last Name:</label>
+                        <InputText @bind-Value="admin.LastName" />
+                        <label>Email:</label>
+                        <InputText @bind-Value="admin.Email" />
+                        <div class="actions">
+                            <button class="btn btn-update" type="submit">Update</button>
+                            <button class="btn btn-delete" @onclick="() => DeleteAdmin(admin.Id)">Delete</button>
+                        </div>
+                    </div>
+                </EditForm>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private AdminModel newAdmin = new AdminModel();
+    private List<AdminModel> admins = new List<AdminModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAdmins();
+    }
+
+    private async Task LoadAdmins()
+    {
+        admins = await HttpClient.GetFromJsonAsync<List<AdminModel>>("api/admins");
+    }
+
+    private async Task CreateAdmin()
+    {
+        var response = await HttpClient.PostAsJsonAsync("api/admins", newAdmin);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadAdmins();
+            newAdmin = new AdminModel();
+        }
+    }
+
+    private async Task UpdateAdmin(AdminModel admin)
+    {
+        var response = await HttpClient.PutAsJsonAsync($"api/admins/{admin.Id}", admin);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadAdmins();
+        }
+    }
+
+    private async Task DeleteAdmin(int adminId)
+    {
+        var response = await HttpClient.DeleteAsync($"api/admins/{adminId}");
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadAdmins();
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Handle the valid submit case
+    }
+
+    public class AdminModel
+    {
+        public int Id { get; set; }
+        public string RoleId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
+}

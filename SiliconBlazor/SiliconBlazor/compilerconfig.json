@@ -2,5 +2,13 @@
   {
     "outputFile": "wwwroot/app.css",
     "inputFile": "wwwroot/app.scss"
+  },
+  {
+    "outputFile": "Components/Admin/AdminPortal.razor.css",
+    "inputFile": "Components/Admin/AdminPortal.razor.scss"
+  },
+  {
+    "outputFile": "Components/Pages/AdminPortal.razor.css",
+    "inputFile": "Components/Pages/AdminPortal.razor.scss"
   }
 ]
