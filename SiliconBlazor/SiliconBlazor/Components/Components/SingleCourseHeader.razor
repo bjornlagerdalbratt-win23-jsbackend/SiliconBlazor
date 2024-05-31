@@ -45,7 +45,6 @@
                                 else
                                 {
                                     <i class="fa-regular fa-star"></i>
-
                                 }
                             }
                         }
@@ -56,9 +55,9 @@
                         {
                             <p>(@Course?.Reviews reviews)</p>
                             <div class="vertical-line"></div>
-                            <p><i class="fa-sharp fa-regular fa-thumbs-up"></i>@Course?.Likes likes</p>
+                            <p><i class="fa-sharp fa-regular fa-thumbs-up"></i> @Course?.Likes likes</p>
                             <div class="vertical-line"></div>
-                            <p><i class="fa-sharp fa-regular fa-clock"></i>@Course?.Hours hours</p>
+                            <p><i class="fa-sharp fa-regular fa-clock"></i> @Course?.Hours hours</p>
                         }
                     </div>
 
@@ -71,7 +70,7 @@
                         @foreach (var author in Course.Authors)
                         {
                             <div class="content">
-                                <img class="author-image" src="@Course.ImageUri" alt="@($"{author.FirstName} {author.LastName}")" />
+                                <img class="author-image" src="@Course.ImageUri" alt="Image of @($"{author.FirstName} {author.LastName}")" />
                                 <p>@($"{author.FirstName} {author.LastName}")</p>
                             </div>
                         }

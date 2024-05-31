@@ -12,6 +12,7 @@
 
 
             select {
+                width: 100%;
             }
 
             .input-search-group {
@@ -19,14 +20,13 @@
                 position: relative;
 
                 input {
-                    padding: 15px;
                     width: 100%;
                     margin-top: 10px;
                 }
 
                 i {
                     position: absolute;
-                    bottom: 20px;
+                    bottom: 7px;
                     right: 14px;
                 }
             }
@@ -107,6 +107,15 @@
                         font-weight: 600;
                     }
 
+                    .price {
+                        font-weight: 700;
+                    }
+
+                    .discount {
+                        color: red;
+                        font-weight: 700;
+                    }
+
                     .discount-enabled {
                         color: $gray-600;
                         text-decoration: line-through;
@@ -179,7 +188,6 @@
             
 
             input {
-                padding: 15px;
                 width: 50%;
                 margin-top: 10px;
             }
@@ -200,11 +208,16 @@
                     align-items: center;
                     gap: 1.5rem;
 
+                    select {
+                        padding: 0.3rem;
+                    }
+
                     .input-search-group {
                         margin-bottom: 10px;
+                        width: 100%;
 
                         input {
-                            padding: 15px;
+                            padding: 0.2rem;
                         }
                     }
                 }
