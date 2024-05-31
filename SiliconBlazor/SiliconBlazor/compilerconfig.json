@@ -23,7 +23,8 @@
   {
     "outputFile": "Components/Account/Pages/AccountPages/ProfileInfo.razor.css",
     "inputFile": "Components/Account/Pages/AccountPages/ProfileInfo.razor.scss"
-
+  },
+  {
     "outputFile": "Components/Pages/SingleCourse.razor.css",
     "inputFile": "Components/Pages/SingleCourse.razor.scss"
 
