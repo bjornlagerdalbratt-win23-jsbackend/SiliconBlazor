@@ -53,5 +53,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         user = await UserManager.GetUserAsync(HttpContext.User);
+
     }
 }
