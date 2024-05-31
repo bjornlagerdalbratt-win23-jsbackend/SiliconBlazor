@@ -1,0 +1,35 @@
+﻿<div class="description-content mb-5">
+    <h2>Course Description</h2>
+        @if(Course != null && Course?.Content?.Description != null)
+        {
+            <p class="p-description">
+                @Course?.Content?.Description
+            </p>
+
+        }
+
+    <h3>What you'll learn</h3>
+    <div class="description-list">
+
+    @if(Course != null && Course?.Content?.Learnings != null)
+    {
+        @foreach (var learning in Course.Content.Learnings)
+        {
+            <div class="d-item">
+                <i class="fa-regular fa-badge-check"></i>
+                <p class="p-item">@learning</p>
+            </div>          
+        }
+    }
+
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public CourseData? Course { get; set; }
+
+}

@@ -40,16 +40,26 @@
                 flex-direction: row;
                 gap: 0.5rem;
 
-                .discount {
+                .price {
+                    font-weight: 700;
                 }
 
-                .price {
+                .discount {
+                    color: red;
+                    font-weight: 700;
                 }
+
+                .discount-enabled {
+                    color: $gray-600;
+                    text-decoration: line-through;
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+
             }
 
 
             button {
-
             }
         }
     }

@@ -1,0 +1,164 @@
+﻿@page "/courses"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@attribute [StreamRendering]
+
+
+<PageTitle>Courses</PageTitle>
+
+<section class="courses">
+
+    <div class="container">
+        <div class="header">
+            <h1>Courses</h1>
+            <div id="form-filters">
+                <select name="categories" id="categories">
+                    <option>All Categories</option>
+
+                    @foreach (var category in GetUniqueCategories())
+                    {
+                        <option value="@category">@category</option>
+                    }
+                </select>
+
+                <div class="input-search-group">
+                    <input id="searchQuery" name="searchQuery" placeholder="Search courses" />
+                    <i class="fa-regular fa-search"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="course-items">
+            @if (courses == null)
+            {
+                <p class="loading">Loading courses...</p>
+                <div><i class="fa-sharp sa-solid fa-spinner-third fa-spin"></i></div>
+            }
+            else
+            {
+                foreach (var course in courses)
+                {
+                    <NavLink class="course" href="@($"/course/{course.Id}")">
+                        @if (course.IsBestSeller == true)
+                        {
+                            <div class="bestseller">Is Bestseller</div>
+                        }
+                        <span class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></span>
+
+                        <img src="@course.ImageUri" alt="@course.Title" />
+
+
+                        <div class="content">
+                            <h5 class="title">@course.Title</h5>
+                            <p class="author">By @course.Author</p>
+                            <div class="pricing"></div>
+                            @if (!string.IsNullOrEmpty(course.DiscountPrice))
+                            {
+                                <div class="discount">@course.DiscountPrice</div>
+                            }
+                            <div class="price @(!string.IsNullOrEmpty(course.DiscountPrice)? "discount-enabled" : "")">@course.Price</div>
+                        </div>
+                        <div class="footer">
+                            <div class="hours">
+                                <i class="fa-regular fa-clock"></i> @course.Hours hours
+                            </div>
+                            <div class="likes">
+                                <i class="fa-regular fa-thumbs-up"></i> @course.LikesInProcent (@course.LikesInNumbers)
+                            </div>
+
+                        </div>
+                    </NavLink>
+                }
+            }
+        </div>
+
+    </div>
+
+</section>
+
+
+@code {
+    private List<CourseCardModel>? courses;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        var query = new GraphQLQuery
+            {
+                Query = @"
+            {
+                getCourses {
+                    id
+                    isBestSeller
+                    title
+                  imageUri
+                    authors {
+                        firstName
+                        lastName
+                    }
+                    prices {
+                        currency
+                        price
+                        discount
+                    }
+                    hours
+                    likesInProcent
+                    likes
+                    categories
+                }
+            }"
+            };
+
+        var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            var graphQLResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<GraphQLResponse<Dictionary<string, List<CourseData>>>>(result);
+
+            if (graphQLResponse?.Data != null && graphQLResponse.Data.TryGetValue("getCourses", out var courseList))
+            {
+                courses = courseList.Select(courseData => new CourseCardModel
+                    {
+                        Id = courseData.Id,
+                        IsBestSeller = courseData.IsBestSeller,
+                        Title = courseData.Title,
+                        ImageUri = courseData.ImageUri,
+                        Author = string.Join(", ", courseData.Authors?.Select(author => $"{author.FirstName} {author.LastName}")!),
+                        Price = $"{courseData.Prices?.Currency} {courseData.Prices?.Price}",
+                        DiscountPrice = courseData.Prices?.Discount > 0
+                                    ? $"{courseData.Prices?.Currency} {courseData.Prices?.Price - courseData.Prices?.Discount}"
+                                    : null,
+                        Hours = courseData.Hours,
+                        LikesInNumbers = courseData.Likes,
+                        LikesInProcent = courseData.LikesInProcent,
+                        Categories = courseData.Categories
+                    }).ToList();
+            }
+            else
+            {
+                Console.WriteLine("No courses data available.");
+            }
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {response.StatusCode}");
+            Console.WriteLine($"Error Content: {errorContent}");
+        }
+    }
+
+    //Metod som samlar och returnerar en uppsättning av unika kategorirer från listan över kurser.
+    private IEnumerable<string> GetUniqueCategories()
+    {
+        return courses?
+            //Returnerar tom uppsättning om null
+            //SelectMany projicerar varje kurs till en sekvens av kategorier från alla kurser.
+            .SelectMany(courses => courses.Categories ?? new List<String>())
+            //efter uppsamling av alla kategorier,
+            // anv Distinct för att ta bort ev duplicerande kategorier och behåller nedast unika.
+            .Distinct() ?? Enumerable.Empty<string>();
+    }
+}

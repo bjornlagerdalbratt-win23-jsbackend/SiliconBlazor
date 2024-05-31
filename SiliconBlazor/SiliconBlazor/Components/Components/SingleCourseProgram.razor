@@ -1,0 +1,32 @@
+﻿<div class="program-details mb-5">
+    <div class="content">
+        <h2>Program Details</h2>
+
+
+        @if (Course != null && Course.Content != null && Course.Content.ProgramDetails != null)
+        {
+            @foreach (var item in Course.Content.ProgramDetails.Select((value, index) => new { Value = value, Index = index }))
+            {
+                <div class="item">
+                    <div class="number">
+                        <span class="list-number">@((item.Index + 1).ToString()[0])</span>
+                    </div>
+                    <div class="item-content">
+                        <i class="@item.Value.IconClass"></i>
+                        <h4>@item.Value.Title</h4>
+                        <p>@item.Value.Description</p>
+                    </div>
+                </div>
+                
+            }
+            {
+            }        
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public CourseData? Course { get; set; }
+
+}
