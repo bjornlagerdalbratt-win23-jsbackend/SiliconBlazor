@@ -1,0 +1,80 @@
+.account-notification {
+    margin-top: 6rem;
+    height: 100%;
+
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        height: 100%;
+        gap: 3rem 5rem;
+
+        .notification {
+            max-width: 856px;
+            grid-column: 5 / span 8;
+
+            h1 {
+                margin-bottom: 2rem;
+            }
+
+            .notification-form {
+
+                .email {
+                    font-weight: 700;
+                    margin-bottom: .2rem;
+                }
+
+                .email-input {
+                    max-width: 416px;
+                    margin-bottom: 1.5rem;
+
+                    &:focus {
+                        box-shadow: none;
+                        border: 1px solid #6366F1;
+                    }
+
+                    &::placeholder {
+                        opacity: .4;
+                    }
+                }
+
+                .btn-switch {
+                    padding-bottom: 1.5rem;
+                    display: flex;
+                    align-items: flex-start;
+
+                    .switch {
+
+                        &:checked + .slider {
+                            background-color: #22C55E !important;
+                        }
+                    }
+
+                    .button-label-box {
+                        display: flex;
+                        flex-direction: column;
+
+                        label {
+                            margin-bottom: 5px;
+                            font-weight: 700;
+                        }
+
+                        p {
+                            color: #9397AD;
+                        }
+                    }
+                }
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+
+                .btn-theme-s {
+                    border: 1px solid #6366F1;
+                }
+            }
+        }
+    }
+}

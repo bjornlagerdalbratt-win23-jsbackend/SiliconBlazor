@@ -1,0 +1,78 @@
+﻿@page "/accountnotification"
+@inject HttpClient httpClient
+
+<PageTitle>Account Notification</PageTitle>
+
+<section class="account-notification">
+    <div class="container">
+
+        <ProfileInfo />
+
+        <div class="notification">
+            <h1>Notifications</h1>
+
+            <EditForm FormName="subscribeform" Model="Model" OnValidSubmit="HandleSubmit" class="notification-form" novalidate>
+                <label class="email">Preferred email for notifications</label>
+                <InputText class="email-input" type="email" placeholder="example@gmail.com" @bind-Value="@Model.Email" />
+
+                <div id="theme-switch-notification" class="btn-switch">
+                    <label class="switch" for="switch-mode-notification">
+                        <InputCheckbox id="switch-mode-notification" @bind-Value="@Model.checkboxNewsletter" />
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="button-label-box">
+                        <label>Subscribe to Newsletter</label>
+                        <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
+                    </div>
+                </div>
+                <div id="theme-switch-darkmode" class="btn-switch">
+                    <label class="switch" for="switch-mode-darkmode">
+                        <input type="checkbox" id="switch-mode-darkmode" />
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="button-label-box">
+                        <label>Use Dark Mode Theme in Application</label>
+                        <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="reset" class="btn-gray">Cancel</button>
+                    <button type="submit" class="btn-theme-s">Save changes</button>
+                </div>
+                @if (!string.IsNullOrEmpty(StatusMsg))
+                {
+                    <span class="status-msg">@StatusMsg</span>
+                }
+            </EditForm>
+
+        </div>
+    </div>
+</section>
+
+@code {
+
+    private bool checkboxNewsletter { get; set; } = false;
+
+    [SupplyParameterFromQuery]
+    public string StatusMsg { get; set; } = "Subscription ok";
+
+    [SupplyParameterFromForm]
+    public SubscribeViewModel Model { get; set; } = new SubscribeViewModel();
+
+    private async Task HandleSubmit()
+    {
+        Model.checkboxNewsletter = checkboxNewsletter;
+
+        var result = await httpClient.PostAsJsonAsync("https://silicon-newsletterprovider.azurewebsites.net/api/Subscribe?code=utt8Wl_-ivbaStUa0q17AABzlkG6vmGZuFkctqvlAdASAzFuq9T2mw==", Model);
+
+        if (result.IsSuccessStatusCode)
+        {
+            StatusMsg = "Subscription successful";
+        }
+        else
+        {
+            StatusMsg = "Could not subscribe, please click in the checkbox for subscription";
+        }
+    }
+
+}

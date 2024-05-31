@@ -14,4 +14,7 @@ public class SubscribeViewModel
     public bool EventUpdates { get; set; }
     public bool StartupsWeekly { get; set; }
     public bool Podcasts { get; set; }
+
+    //for account notifications page
+    public bool checkboxNewsletter { get; set; } = false;
 }
