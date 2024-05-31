@@ -1,4 +1,4 @@
-/*a {
+a {
     @include standard-text;
     color: $theme;
     text-decoration: none;
@@ -7,7 +7,7 @@
     &:hover {
         text-decoration: underline;
     }
-}*/
+}
 
 .menu-link {
     @include text-nav;
