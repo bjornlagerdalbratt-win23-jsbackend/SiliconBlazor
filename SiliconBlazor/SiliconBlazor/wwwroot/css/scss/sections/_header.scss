@@ -7,6 +7,7 @@ header {
         grid-template-columns: 1fr auto;
         grid-template-areas: "logo mobile";
         gap: 40px;
+        
 
 
         @include lg {
@@ -85,6 +86,14 @@ header {
 
                 .profile-image {
                     position: relative;
+
+                    a {
+                        width: 60px;
+                        height: 60px;
+                        
+                    }
+
+
 
                     .logotype {
                         border-radius: 50%;

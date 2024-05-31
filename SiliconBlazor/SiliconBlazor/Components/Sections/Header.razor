@@ -1,4 +1,7 @@
-﻿<header>
+﻿@inject UserManager<ApplicationUser> UserManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<header>
     <div class="container">
         <NavLink href="/" id="logo"><img class="logotype" src="/Images/Icons/logo.svg" alt="Logotype for Silicon"></NavLink>
 
@@ -33,9 +36,9 @@
                 <Authorized>
                     <div class="profile">
                         <div class="profile-image">
-                            <a href="/account/manage">
-                                <img src="/Images/uploads/profiles/avatar.png" />
-                            </a>
+                            <NavLink href="/accountdetails">
+                                <img src="@ProfileImageUrl" alt="Profile image" />
+                            </NavLink>
                         </div>
                     </div>
                 </Authorized>
@@ -50,5 +53,15 @@
 </header>
 
 @code {
+    private string ProfileImageUrl = "/Images/uploads/profiles/avatar.png";
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = await UserManager.GetUserAsync(authState.User);
+        if (user != null && !string.IsNullOrEmpty(user.ProfileImage))
+        {
+            ProfileImageUrl = user.ProfileImage;
+        }
+    }
 }

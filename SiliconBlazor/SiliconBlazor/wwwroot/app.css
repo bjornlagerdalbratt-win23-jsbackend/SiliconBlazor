@@ -273,19 +273,16 @@ h1:focus {
   border-color: #929292;
 }
 
-a {
-  line-height: 160%;
-  font-weight: 400;
-  color: #565973;
-  font-family: "Manrope", sans-serif;
-  color: #6366F1;
-  text-decoration: none;
-  transition: all 0.25s ease-in-out;
-}
-a:hover {
-  text-decoration: underline;
-}
+/*a {
+    @include standard-text;
+    color: $theme;
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
 
+    &:hover {
+        text-decoration: underline;
+    }
+}*/
 .menu-link {
   line-height: 160%;
   font-weight: 400;
@@ -688,6 +685,10 @@ header .container .account-buttons .profile {
 }
 header .container .account-buttons .profile .profile-image {
   position: relative;
+}
+header .container .account-buttons .profile .profile-image a {
+  width: 60px;
+  height: 60px;
 }
 header .container .account-buttons .profile .profile-image .logotype {
   border-radius: 50%;
