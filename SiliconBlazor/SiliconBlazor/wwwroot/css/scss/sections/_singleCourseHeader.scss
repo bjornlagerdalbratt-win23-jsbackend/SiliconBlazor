@@ -127,6 +127,31 @@
                     }
                 }
 
+                .author-list {
+
+                    span {
+                        font-size: 1em;
+                        font-weight: 800;
+                        color: $white;
+                        padding: 0;
+                    }
+
+                    .content {
+                        text-align: left;
+                        display: flex;
+                        gap: 1rem;
+
+
+                        .author-image {
+                        }
+
+                        p {
+                          
+                            align-content: space-evenly;
+                        }
+                    }
+                }
+
                 .author {
                     display: flex;
                     flex-direction: row;
@@ -134,24 +159,6 @@
                     justify-content: flex-start;
                     gap: 1rem;
                     margin-top: 8rem;
-
-                    .author-image {
-                    }
-
-                    .content {
-                        text-align: left;
-
-                        span {
-                            font-size: 1em;
-                            font-weight: 800;
-                            color: $black;
-                            padding: 0;
-                        }
-
-                        p {
-                            color: $black;
-                        }
-                    }
                 }
             }
         }

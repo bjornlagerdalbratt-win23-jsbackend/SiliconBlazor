@@ -66,12 +66,15 @@
                 @if (Course?.Authors != null)
                 {
                     <div class="author-list">
-                        <span>Created by</span>
+               @*           <span>Created by</span> FIXA STYLINGEN*@
                         @foreach (var author in Course.Authors)
                         {
                             <div class="content">
-                                <img class="author-image" src="@Course.ImageUri" alt="Image of @($"{author.FirstName} {author.LastName}")" />
-                                <p>@($"{author.FirstName} {author.LastName}")</p>
+                                <div class="sub-content">
+                                    <span>Created by</span>
+                                    <p>@($"{author.FirstName} {author.LastName}")</p>
+                                </div>
+                                <img class="author-image" src="@Course.ImageAuthor" alt="Image of @($"{author.FirstName} {author.LastName}")" />
                             </div>
                         }
                     </div>
