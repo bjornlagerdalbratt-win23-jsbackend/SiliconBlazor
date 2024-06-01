@@ -54,7 +54,7 @@
     private bool checkboxNewsletter { get; set; } = false;
 
     [SupplyParameterFromQuery]
-    public string StatusMsg { get; set; } = "Subscription ok";
+    public string StatusMsg { get; set; } = "";
 
     [SupplyParameterFromForm]
     public SubscribeViewModel Model { get; set; } = new SubscribeViewModel();
