@@ -70,33 +70,15 @@
                         @foreach (var author in Course.Authors)
                         {
                             <div class="content">
+                                <img class="author-image" src="@Course.ImageAuthor" alt="Image of @($"{author.FirstName} {author.LastName}")" />
                                 <div class="sub-content">
-                                    <span>Created by</span>
+                                    <span class="created-by">Created by</span>
                                     <p>@($"{author.FirstName} {author.LastName}")</p>
                                 </div>
-                                <img class="author-image" src="@Course.ImageAuthor" alt="Image of @($"{author.FirstName} {author.LastName}")" />
                             </div>
                         }
                     </div>
                 }
-
-                @*                 @if (Course?.Authors != null && Course.Authors.Any())
-                {
-                <div class="author-list">
-                <div class="author-image">
-                <img class="author-image" src="@Course.ImageAuthor" />
-                </div>
-                <div class="content">
-                <span>Created by</span>
-                @foreach (var author in Course.Authors)
-                {
-                <p>@author.FirstName @author.LastName</p>
-                }
-                </div>
-                </div>
-                } *@
-
-
 
             </div>
         </div>

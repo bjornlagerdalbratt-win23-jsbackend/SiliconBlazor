@@ -15,6 +15,7 @@
 
             .page-content {
                 color: white;
+                padding: 1rem;
 
                 .breadcrumb {
                     color: $white;
@@ -118,47 +119,30 @@
                             align-self: center;
                             display: none;
                         }
-
-                        p {
-                        }
-
-                        i {
-                        }
                     }
                 }
 
                 .author-list {
-
-                    span {
-                        font-size: 1em;
-                        font-weight: 800;
-                        color: $white;
-                        padding: 0;
-                    }
+                    margin-top: 8rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
 
                     .content {
-                        text-align: left;
                         display: flex;
+                        flex-direction: row;
+                        align-items: center;
                         gap: 1rem;
 
-
-                        .author-image {
-                        }
-
-                        p {
-                          
-                            align-content: space-evenly;
+                        .subcontent {
+                            .created-by {
+                                font-size: 1em;
+                                font-weight: 800;
+                                color: $white !important;
+                                padding: 0;
+                            }
                         }
                     }
-                }
-
-                .author {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    gap: 1rem;
-                    margin-top: 8rem;
                 }
             }
         }
@@ -168,54 +152,17 @@
 @media(min-width: 388px) {
 
     .course-header-container {
-
         .full-width-background {
-
-
             .course-header-content {
-
                 .page-content {
                 .breadcrumb {
-                    li {
-                        :before {
-                        }
-
-                        :hover {
-                        }
-                    }
                 }
                     .keywords {
-                        .bestseller {
-                        }
-
-                        .digital {
-                        }
                     }
-
                     .content-titles {
-                        h1 {
-                        }
-
-                        p {
-                        }
                     }
 
                     .ratings {
-                        .rating-symbol {
-                            i {
-                            }
-                        }
-
-                        .likes-hours {
-                            .vertical-line {
-                            }
-
-                            p {
-                            }
-
-                            i {
-                            }
-                        }
                     }
 
                     .author {
@@ -225,8 +172,6 @@
                         }
 
                         .content {
-                            span {
-                            }
 
                             span, p {
                                 color: $white;
@@ -241,32 +186,20 @@
 
 @media(min-width: 768px) {
     .course-header-container {
-
         .full-width-background {
-
-
-
-
             .course-header-content {
-
-
-
-
                 .page-content {
                     color: white;
                     margin-top: 0.2rem;
                     padding-block: 1rem;
 
-                .breadcrumb {
-                    margin-bottom:4rem;
-                    li {
-                        :before {
-                        }
+                    .breadcrumb {
+                        margin-bottom: 4rem;
 
-                        :hover {
+                        li {
                         }
                     }
-                }
+
                     .keywords {
                     }
 
@@ -291,7 +224,6 @@
                             display: flex;
                             flex-direction: row;
 
-
                             .vertical-line {
                                 display: block;
                             }
@@ -299,68 +231,37 @@
                             p {
                                 margin-bottom: 0;
                             }
-
-                            i {
-                            }
                         }
                     }
 
-                    .author {
-                        display: flex;
+                    .author-list {
                         flex-direction: row;
-                        align-items: center;
-                        justify-content: flex-start;
-                        gap: 1rem;
-                        margin-top: 5rem;
-
-                        .author-image {
-                        }
-
                         .content {
-                            text-align: left;
 
-                            span {
-                                font-size: 1em;
-                                font-weight: 800;
-                                color: $black;
-                                padding: 0;
-                            }
-
-                            p {
-                                color: $black;
+                            .subcontent {
+                                .created-by {
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        }
     }
+}
+
 
 @media(min-width: 992px) {
 
     .course-header-container {
-
         .full-width-background {
-
-
-
-
-
             .course-header-content {
                 padding-inline: 8rem;
 
                 .page-content {
-
-
                 .breadcrumb {
                     margin-left: 0;
-
-                    li {
-                    }
                 }
-
-
                     .keywords {
                         display: flex;
                         flex-direction: row;
@@ -390,76 +291,28 @@
                         justify-content: left;
                         gap: 0.4rem;
                         margin-bottom: 1.5rem;
-
-                        .rating-symbol {
-                            i {
-                            }
-                        }
-
-                        .likes-hours {
-
-
-                            .vertical-line {
-                            }
-
-                            p {
-                            }
-
-                            i {
-                            }
-                        }
                     }
 
                     .author {
                         margin-bottom: 1rem;
-
-
-                        .author-image {
-                        }
-
-                        .content {
-
-
-                            span {
-                            }
-
-                            p {
-                            }
-                        }
                     }
                 }
             }
         }
     }
-    }
+ }
 
 @media(min-width: 1200px) {
 
     .course-header-container {
-
-
         .full-width-background {
-
-
-
-
-
             .course-header-content {
                 max-width: 1200px;
                 margin: 0 auto;
-
-
                 .page-content {
-                    //  padding-inline: 14rem;
-
-                    @include xxl {
-                    }
 
                     .breadcrumb {
                         text-align: left;
-
-                        li {
-                        }
                     }
 
                     .keywords {
@@ -491,18 +344,6 @@
                         justify-content: left;
                         gap: 0.4rem;
                         margin-bottom: 1.5rem;
-
-                        .rating-symbol {
-                            i {
-                            }
-                        }
-
-                        .likes-hours {
-
-
-                            .vertical-line {
-                            }
-                        }
                     }
 
                     .author {

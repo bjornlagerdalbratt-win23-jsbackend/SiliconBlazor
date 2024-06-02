@@ -6,7 +6,6 @@ using SiliconBlazor.Components;
 using SiliconBlazor.Components.Account;
 using SiliconBlazor.Data;
 using SiliconBlazor.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +60,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-  
+
 
 var app = builder.Build();
 
@@ -77,6 +76,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseStatusCodePagesWithReExecute("/Error"); // Hanterar statuskoder och omdirigerar till Error-sidan
 
 app.UseHttpsRedirection();
 

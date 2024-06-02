@@ -46,7 +46,7 @@ public class ContentData
 public class ProgramDetailItemData
 {
     public int Number { get; set; }
-    public string? Title { get; set; }
-    public string? Description { get; set; }
+    public string? ItemTitle { get; set; }
+    public string? ItemDescription { get; set; }
     public string? IconClass { get; set; }
 }
