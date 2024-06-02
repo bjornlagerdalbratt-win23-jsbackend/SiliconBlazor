@@ -689,12 +689,8 @@ header .container .account-buttons .profile .profile-image {
   position: relative;
 }
 header .container .account-buttons .profile .profile-image img {
-  width: 100px;
+  width: 100%;
   height: 100px;
-}
-header .container .account-buttons .profile .profile-image a img {
-  width: 50%;
-  border-radius: 50%;
 }
 header .container .account-buttons .profile .profile-image .logotype {
   border-radius: 50%;

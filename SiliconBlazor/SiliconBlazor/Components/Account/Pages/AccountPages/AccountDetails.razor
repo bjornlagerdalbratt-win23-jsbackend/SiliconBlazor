@@ -29,18 +29,22 @@
                 <div class="col-md-6" id="input-group-2">
                     <label id="Lastname" class="form-label">Last name</label>
                     <InputText id="Lastname" @bind-Value="BasicInfoForm.LastName" type="text" class="form-control" placeholder="Enter your last name" required />
+                    <ValidationMessage For="() => BasicInfoForm.LastName" class="text-danger" />
                 </div>
                 <div class="col-md-6" id="input-group-3">
                     <label id="Email" class="form-label">Email address</label>
-                    <InputText id="Email" @bind-Value="BasicInfoForm.Email" type="email" class="form-control" placeholder="Enter your email address" required />
+                    <InputText id="Email" @bind-Value="BasicInfoForm.Email" type="email" class="form-control" placeholder="Enter your email address" disabled />
+                    <ValidationMessage For="() => BasicInfoForm.Email" class="text-danger" />
                 </div>
                 <div class="col-md-6" id="input-group-4">
                     <label id="Phonenumber" class="form-label">Phone</label>
                     <InputText id="Phonenumber" @bind-Value="BasicInfoForm.PhoneNumber" type="number" class="form-control" placeholder="Enter your phone" />
+                    <ValidationMessage For="() => BasicInfoForm.PhoneNumber" class="text-danger" />
                 </div>
                 <div class="col-12">
                     <label id="Bio" class="form-label">Bio <span>(optional)</span></label>
                     <InputTextArea id="Bio" @bind-Value="BasicInfoForm.Bio" type="text" class="form-control" placeholder="Enter a short bio..." rows="5"></InputTextArea>
+                    <ValidationMessage For="() => BasicInfoForm.Bio" class="text-danger" />
                 </div>
                 <div class="buttons">
                     <button type="reset" class="btn-gray">Cancel</button>
@@ -54,18 +58,22 @@
                 <div class="col-12" id="input-group-1">
                     <label id="AddressLine1" class="form-label">Address line 1</label>
                     <InputText id="AddressLine1" @bind-Value="AddressInfoForm.Addressline_1" type="text" class="form-control" placeholder="Enter your address" />
+                    <ValidationMessage For="() => AddressInfoForm.Addressline_1" class="text-danger" />
                 </div>
                 <div class="col-12" id="input-group-2">
                     <label id="AddressLine2" class="form-label">Address line 2 <span>(optional)</span></label>
                     <InputText id="AddressLine2" @bind-Value="AddressInfoForm.Addressline_2" type="text" class="form-control" placeholder="Enter your second address info" />
+                    <ValidationMessage For="() => AddressInfoForm.Addressline_2" class="text-danger" />
                 </div>
                 <div class="col-md-6" id="input-group-3">
                     <label id="PostalCode" class="form-label">Postal code</label>
                     <InputText id="PostalCode" @bind-Value="AddressInfoForm.PostalCode" type="number" class="form-control" placeholder="Enter your postal code" />
+                    <ValidationMessage For="() => AddressInfoForm.PostalCode" class="text-danger" />
                 </div>
                 <div class="col-md-6" id="input-group-4">
                     <label id="City" class="form-label">City</label>
                     <InputText id="City" @bind-Value="AddressInfoForm.City" type="text" class="form-control" placeholder="Enter your city" />
+                    <ValidationMessage For="() => AddressInfoForm.City" class="text-danger" />
                 </div>
                 <div class="buttons">
                     <button type="reset" class="btn-gray">Cancel</button>
@@ -169,26 +177,45 @@
 
     private sealed class BasicInfoModel
     {
+        [Display(Name = "First Name", Prompt = "Enter your first name", Order = 0)]
+        [Required(ErrorMessage = "First name is required")]
+        [DataType(DataType.Text)]
         public string FirstName { get; set; } = null!;
 
+        [Display(Name = "Last Name", Prompt = "Enter your last name", Order = 1)]
+        [Required(ErrorMessage = "Last name is required")]
+        [DataType(DataType.Text)]
         public string LastName { get; set; } = null!;
 
         public string Email { get; set; } = null!;
 
+        [Display(Name = "Bio", Prompt = "Add a short bio...", Order = 4)]
+        [DataType(DataType.MultilineText)]
         public string? Bio { get; set; }
 
+        [Display(Name = "Phone", Prompt = "Enter your phone", Order = 3)]
+        [DataType(DataType.PhoneNumber)]
+        [Required(ErrorMessage = "Phone number not correct format")]
         public string? PhoneNumber { get; set; }
 
     }
 
     private sealed class AddressInfoModel
     {
+        [Required(ErrorMessage = "A valid address is required")]
+        [Display(Name = "Address line 1", Prompt = "Enter your address line", Order = 0)]
         public string Addressline_1 { get; set; } = null!;
 
+        [Display(Name = "Address line 2", Prompt = "Enter your second address line", Order = 1)]
         public string? Addressline_2 { get; set; }
 
+        [Required(ErrorMessage = "A valid postal code is required.")]
+        [Display(Name = "Postal code", Prompt = "Enter your postal code", Order = 3)]
+        [DataType(DataType.PostalCode)]
         public string PostalCode { get; set; } = null!;
 
+        [Required(ErrorMessage = "A valid city is required.")]
+        [Display(Name = "City", Prompt = "Enter your city", Order = 4)]
         public string City { get; set; } = null!;
     }
 

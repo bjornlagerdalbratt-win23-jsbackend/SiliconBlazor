@@ -34,6 +34,7 @@
   padding-bottom: 1.5rem;
   display: flex;
   align-items: flex-start;
+  margin-top: 1.5rem;
 }
 .account-notification .container .notification .notification-form .btn-switch .switch:checked + .slider {
   background-color: #22C55E !important;
@@ -56,4 +57,8 @@
 }
 .account-notification .container .notification .buttons .btn-theme-s {
   border: 1px solid #6366F1;
+}
+.account-notification .container .notification .status-msg {
+  margin-top: 1.5rem;
+  color: red;
 }
