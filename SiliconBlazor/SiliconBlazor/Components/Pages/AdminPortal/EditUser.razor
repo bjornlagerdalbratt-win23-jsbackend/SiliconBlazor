@@ -1,0 +1,104 @@
+﻿@page "/edituser"
+
+
+
+
+<div class="col-mb3">
+    <AdminPortal />
+</div>
+
+<div class="container w-50">
+    <div>
+        @StatusMessage
+    </div>
+    <h4 class="mb-4">Edit user</h4>
+    <EditForm FormName="userform" Model="UserForm" OnValidSubmit="HandleSubmit" Enhance novalidate>
+        <DataAnnotationsValidator />
+        <label class="mb-2">First name</label>
+        <InputText @bind-Value="UserForm.FirstName" class="mb-3" />
+        <label class="mb-1">Last name</label>
+        <InputText @bind-Value="UserForm.LastName" class="mb-3" />
+        <label class="mb-1">Phone</label>
+        <InputText @bind-Value="UserForm.PhoneNumber" class="mb-3 " />
+        <label class="mb-1">Bio</label>
+        <InputTextArea @bind-Value="UserForm.Bio" class="mb-3 " />
+        <button class="btn-theme" type="submit">Save changes</button>
+    </EditForm>
+</div>
+
+
+
+@code {
+
+    [SupplyParameterFromQuery]
+    public string? Id { get; set; }
+
+    private ApplicationUser currentUser = default!;
+
+    [SupplyParameterFromQuery]
+    public string StatusMessage { get; set; } = "";
+
+
+    [SupplyParameterFromForm]
+    private UserModel UserForm { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id == null)
+        {
+            NavigationManager.NavigateTo("/not-found");
+        }
+
+        await GetUserById(Id!);
+
+
+    }
+
+    private async Task GetUserById(string id)
+    {
+
+        var user = await UserManager.FindByIdAsync(id);
+        if (user != null)
+        {
+            currentUser = user;
+        }
+
+        UserForm.FirstName ??= user.FirstName;
+        UserForm.LastName ??= user.LastName;
+        UserForm.PhoneNumber ??= user.PhoneNumber;
+        UserForm.Bio ??= user.Bio;
+
+
+    }
+
+    private async Task HandleSubmit()
+    {
+
+        currentUser.FirstName = UserForm.FirstName;
+        currentUser.LastName = UserForm.LastName;
+        currentUser.PhoneNumber = UserForm.PhoneNumber;
+        currentUser.Bio = UserForm.Bio;
+
+
+        var updateResult = await Http.PutAsJsonAsync($"https://silicon-userprovider.azurewebsites.net/api/user/{currentUser.Email}?code=5oLVs0AkSySFhlnf6Cxu8A9JTVux9frrb7qr4JXoEtx5AzFuq83XNw%3D%3D", currentUser);
+        if (updateResult.IsSuccessStatusCode)
+        {
+            StatusMessage = "User was updated";
+        }
+        else
+        {
+            StatusMessage = "User was not updated";
+        }
+    }
+
+
+    private sealed class UserModel
+    {
+        [Required]
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string? PhoneNumber { get; set; }
+        public string? Bio { get; set; }
+    }
+
+}
