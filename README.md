@@ -1,3 +1,7 @@
 # SiliconBlazor
 
-blazorapp-silicon.azurewebsites.net
+web app: blazorapp-silicon.azurewebsites.net
+
+backoffice: silicon-backoffice.azurewebsites.net
+
+
