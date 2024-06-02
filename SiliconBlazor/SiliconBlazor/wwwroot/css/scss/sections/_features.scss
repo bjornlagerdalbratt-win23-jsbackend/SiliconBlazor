@@ -10,6 +10,7 @@
             @include h1;
             margin-bottom: 30px;
         }
+
         p {
             color: $gray-600;
         }
@@ -17,10 +18,19 @@
         .tool-features {
             padding: 1.5rem;
             display: grid;
-            //gap: 1rem;
+            gap: 1rem;
             margin-top: 50px;
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
+
+            .feature {
+                transition: transform 0.5s;
+
+                &:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            }
 
             @media screen and (min-width: 992px) {
                 grid-template-columns: 1fr 1fr;

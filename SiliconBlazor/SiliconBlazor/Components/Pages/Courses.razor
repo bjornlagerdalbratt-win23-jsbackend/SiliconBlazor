@@ -1,5 +1,6 @@
 ﻿@page "/courses"
 @using Microsoft.AspNetCore.Authorization
+@using SiliconBlazor.Components.Components
 @attribute [Authorize]
 @attribute [StreamRendering]
 
@@ -75,6 +76,8 @@
     </div>
 
 </section>
+
+<Pagination />
 
 
 @code {

@@ -2,11 +2,7 @@
     padding-top: 3rem;
     padding-bottom: 5rem;
 
-
     .container {
-
-        h1 {
-        }
 
         #form-filters {
 
@@ -53,10 +49,9 @@
                 overflow: hidden;
                 text-decoration: none;
 
-                :hover {
+                &:hover {
                     opacity: 0.85;
                     transition: ease-in-out 0.5s;
-                    text-decoration: underline;
                     box-shadow: 5px 4px 5px $gray-800;
                 }
 
@@ -86,6 +81,8 @@
 
                 img {
                     width: 100%;
+
+                    
                 }
 
                 .content {
@@ -150,50 +147,17 @@
 }
 
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.7rem;
-    margin-top: 5rem;
-
-    .pag-item {
-        padding-inline: 15px;
-        padding-block: 7px;
-        text-decoration: none;
-        border-radius: 5px;
-        color: $gray-800;
-
-
-        &:hover {
-            background: $gray-200;
-            text-decoration: underline;
-        }
-
-        &:active {
-            background: $gray-600;
-            color: $gray-100;
-        }
-    }
-}
-
 @media (min-width: 992px) {
     #form-filters {
 
-
-        select {
-        }
-
-        .input-search-group {
-            
-
+        .input-search-group {         
             input {
                 width: 50%;
                 margin-top: 10px;
             }
         }
     }
-    }
+}
 
     @media (min-width: 1200px) {
         .courses {
@@ -242,13 +206,6 @@
                         border-radius: 8px;
                         overflow: hidden;
                         text-decoration: none;
-
-                        :hover {
-                            opacity: 0.85;
-                            transition: ease-in-out 0.5s;
-                            text-decoration: underline;
-                            box-shadow: 5px 4px 5px $gray-800;
-                        }
 
                         .bestseller {
                             position: absolute;
