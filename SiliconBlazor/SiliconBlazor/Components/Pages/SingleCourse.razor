@@ -72,8 +72,8 @@
                           learnings
                           includes
                           programDetails {
-                            title
-                            description
+                            itemTitle
+                            itemDescription
                           }
                         }
                         prices {
@@ -89,6 +89,7 @@
 
         var response = await Http.PostAsJsonAsync("https://courseprovider-silicon-app.azurewebsites.net/api/graphql?", query);
 
+        //var response = await Http.PostAsJsonAsync("http://localhost:7036/api/graphql", query);
         if (response.IsSuccessStatusCode)
         {
             var result = await response.Content.ReadAsStringAsync();
@@ -142,10 +143,10 @@
         }
 
         var programDetails = content.ProgramDetails != null
-            ? string.Join(", ", content.ProgramDetails.Select(pd => $"{pd.Title}: {pd.Description}"))
+            ? string.Join(", ", content.ProgramDetails.Select(pd => $"{pd.ItemTitle}: {pd.ItemDescription}"))
             : string.Empty;
 
-        return $"{content.Description} {programDetails}".Trim();
+        return content.Description ?? string.Empty;
     }
 }
 
