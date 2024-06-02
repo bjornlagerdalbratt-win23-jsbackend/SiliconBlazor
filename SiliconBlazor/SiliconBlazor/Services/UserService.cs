@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SiliconBlazor.Data;
@@ -8,6 +9,7 @@ namespace SiliconBlazor.Services;
 public class UserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
     private readonly ApplicationDbContext _context;
 
@@ -57,5 +59,19 @@ public class UserService
         }
         return result;  
     }
+
+    //public async Task<ApplicationUser> SignOutAsync()
+    //{
+    //    var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+    //    var user = authState.User;
+
+    //    if (user.Identity.IsAuthenticated)
+    //    {
+    //        await _signInManager.SignOutAsync();
+    //    }
+
+    //    return null!;
+
+    //}
 
 }

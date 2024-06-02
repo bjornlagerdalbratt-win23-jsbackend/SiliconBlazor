@@ -1,12 +1,18 @@
 ﻿
 @using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Mvc
 @using Microsoft.EntityFrameworkCore
 @using SiliconBlazor.Services
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization;
+
 
 @rendermode InteractiveServer
 
 @inject HttpClient httpClient
 @inject UserService UserService
+
 
 
 @if (user == null)
@@ -35,20 +41,28 @@ else
         </div>
         <div class="links">
             <NavLink Match="NavLinkMatch.All" class="btn-transparent link-btn" href="/accountdetails"><i class="fa-regular fa-gear"></i>Account Details</NavLink>
-            <NavLink Match="NavLinkMatch.All" class="btn-transparent link-btn" href="/accountnotification"><i class="fa-regular fa-lock"></i>Account Notification</NavLink>
-            <NavLink Match="NavLinkMatch.All" class="btn-transparent link-btn"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign Out</NavLink>
+            <NavLink class="btn-transparent link-btn" href="/accountnotification"><i class="fa-regular fa-lock"></i>Account Notification</NavLink>
+            <form action="Account/Logout" method="post">
+               <AntiforgeryToken />
+               <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+               <button type="submit">
+                   Logout
+               </button>
+            </form>
         </div>
         
     </div>
 }
 
 @code {
+    private string? currentUrl;
 
     private ApplicationUser user = default!;
     private MultipartFormDataContent FileModel = new MultipartFormDataContent();
     private IBrowserFile? selectedFile;
     private string ProfileImage { get; set; } 
-    //test
+
+
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
@@ -89,7 +103,7 @@ else
                     }
 
                     // var filePath = await response.Content.ReadAsStringAsync();
-                    
+
                 }
             }
             catch (Exception ex)
@@ -115,4 +129,6 @@ else
             //sad error msg
         }
     }
+
+
 }

@@ -17,7 +17,7 @@
 
                 <div id="theme-switch-notification" class="btn-switch">
                     <label class="switch" for="switch-mode-notification">
-                        <InputCheckbox id="switch-mode-notification" @bind-Value="@Model.checkboxNewsletter" />
+                        <InputCheckbox id="switch-mode-notification" @bind-Value="@Model.checkboxNewsletter"/>
                         <span class="slider round"></span>
                     </label>
                     <div class="button-label-box">
@@ -25,16 +25,7 @@
                         <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
                     </div>
                 </div>
-                <div id="theme-switch-darkmode" class="btn-switch">
-                    <label class="switch" for="switch-mode-darkmode">
-                        <input type="checkbox" id="switch-mode-darkmode" />
-                        <span class="slider round"></span>
-                    </label>
-                    <div class="button-label-box">
-                        <label>Use Dark Mode Theme in Application</label>
-                        <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
-                    </div>
-                </div>
+   
                 <div class="buttons">
                     <button type="reset" class="btn-gray">Cancel</button>
                     <button type="submit" class="btn-theme-s">Save changes</button>
@@ -51,28 +42,60 @@
 
 @code {
 
-    private bool checkboxNewsletter { get; set; } = false;
+        [SupplyParameterFromQuery]
+        public string StatusMsg { get; set; } = "";
 
-    [SupplyParameterFromQuery]
-    public string StatusMsg { get; set; } = "";
+        [SupplyParameterFromForm]
+        public SubscriberNotificationsModel Model { get; set; } = new SubscriberNotificationsModel();
 
-    [SupplyParameterFromForm]
-    public SubscribeViewModel Model { get; set; } = new SubscribeViewModel();
+        // private void CheckboxChanged(ChangeEventArgs e)
+        // {
+        //     checkboxNewsletter = (bool)e.Value;
+    // }
 
-    private async Task HandleSubmit()
-    {
-        Model.checkboxNewsletter = checkboxNewsletter;
+    //kolla med björn!! Endpoint
 
-        var result = await httpClient.PostAsJsonAsync("https://silicon-newsletterprovider.azurewebsites.net/api/Subscribe?code=utt8Wl_-ivbaStUa0q17AABzlkG6vmGZuFkctqvlAdASAzFuq9T2mw==", Model);
-
-        if (result.IsSuccessStatusCode)
+        private async Task HandleSubmit()
         {
-            StatusMsg = "Subscription successful";
+
+            if (!Model.checkboxNewsletter)
+            {
+                var unsubscribeResult = await httpClient.DeleteAsync($"https://silicon-newsletterprovider.azurewebsites.net/api/UnSubscribe?code=gBbP_WxXfBNF7Q3IOeL316GAzO3CQ72JPMxejTrIyYGjAzFut58_OQ%3D%3D");
+                if (unsubscribeResult.IsSuccessStatusCode)
+            {
+                StatusMsg = "Unsubscribed successfully";
+            }
+            else
+            {
+                StatusMsg = "Could not unsubscribe, please try again";
+            }
+
+            
         }
-        else
+        else 
         {
-            StatusMsg = "Could not subscribe, please click in the checkbox for subscription";
+            var subscribeResult = await httpClient.PostAsJsonAsync("https://silicon-newsletterprovider.azurewebsites.net/api/Subscribe?code=utt8Wl_-ivbaStUa0q17AABzlkG6vmGZuFkctqvlAdASAzFuq9T2mw==", Model);
+            if (subscribeResult.IsSuccessStatusCode)
+            {
+                StatusMsg = "Subscription successful";
+            }
+            else
+            {
+                StatusMsg = "Could not subscribe, please try again";
+            }
         }
+        // Model.checkboxNewsletter = checkboxNewsletter;
+
+        // var result = await httpClient.PostAsJsonAsync("https://silicon-newsletterprovider.azurewebsites.net/api/Subscribe?code=utt8Wl_-ivbaStUa0q17AABzlkG6vmGZuFkctqvlAdASAzFuq9T2mw==", Model);
+
+        // if (result.IsSuccessStatusCode)
+        // {
+        //     StatusMsg = "Subscription successful";
+        // }
+        // else
+        // {
+        //     StatusMsg = "Could not subscribe, please click in the checkbox for subscription";
+        // }
     }
 
 }

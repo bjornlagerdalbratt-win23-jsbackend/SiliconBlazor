@@ -25,6 +25,7 @@ builder.Services.AddScoped<UserAddressManager>();
 
 builder.Services.AddScoped<UserService>();
 
+
 builder.Services.AddSingleton(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();

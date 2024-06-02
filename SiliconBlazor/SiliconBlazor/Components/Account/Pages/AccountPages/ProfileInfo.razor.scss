@@ -180,13 +180,6 @@
             margin-bottom: .5rem;
             width: 100%;
             justify-content: flex-start;
-
-            &:active {
-                text-decoration: none;
-                background: #6366F1;
-                color: #FFFFFF;
-                box-shadow: 0px 2px 6.4px -1px rgba(19, 16, 34, 0.03), 0px 4.4px 12px -1px rgba(19, 16, 34, 0.06);
-            }
         }
 
         .btn-transparent {
@@ -202,12 +195,17 @@
             gap: .5rem;
             font-weight: 600;
 
-            &:hover {
+            &:hover,
+            &:active,
+            .active{
                 text-decoration: none;
                 background: #6366F1;
                 color: #FFFFFF;
                 box-shadow: 0px 2px 6.4px -1px rgba(19, 16, 34, 0.03), 0px 4.4px 12px -1px rgba(19, 16, 34, 0.06);
             }
         }
+
+       
     }
 }
+
