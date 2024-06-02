@@ -1809,10 +1809,9 @@ footer .container p .footer-span {
   overflow: hidden;
   text-decoration: none;
 }
-.courses .container .course-items .course :hover {
+.courses .container .course-items .course:hover {
   opacity: 0.85;
   transition: ease-in-out 0.5s;
-  text-decoration: underline;
   box-shadow: 5px 4px 5px #33354D;
 }
 .courses .container .course-items .course .bestseller {
@@ -1883,29 +1882,6 @@ footer .container p .footer-span {
   margin-right: 5px;
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.7rem;
-  margin-top: 5rem;
-}
-.pagination .pag-item {
-  padding-inline: 15px;
-  padding-block: 7px;
-  text-decoration: none;
-  border-radius: 5px;
-  color: #33354D;
-}
-.pagination .pag-item:hover {
-  background: #EFF2FC;
-  text-decoration: underline;
-}
-.pagination .pag-item:active {
-  background: #9397AD;
-  color: #F3F6FF;
-}
-
 @media (min-width: 992px) {
   #form-filters .input-search-group input {
     width: 50%;
@@ -1951,12 +1927,6 @@ footer .container p .footer-span {
     border-radius: 8px;
     overflow: hidden;
     text-decoration: none;
-  }
-  .courses .container .course-items .course :hover {
-    opacity: 0.85;
-    transition: ease-in-out 0.5s;
-    text-decoration: underline;
-    box-shadow: 5px 4px 5px #33354D;
   }
   .courses .container .course-items .course .bestseller {
     position: absolute;
@@ -2920,4 +2890,27 @@ footer .container p .footer-span {
 .bottom .subscribe-buttons {
   display: flex;
   flex-direction: row;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 5rem;
+}
+.pagination .pag-item {
+  padding-inline: 15px;
+  padding-block: 7px;
+  text-decoration: none;
+  border-radius: 5px;
+  color: #33354D;
+}
+.pagination .pag-item:hover {
+  background: #EFF2FC;
+  text-decoration: underline;
+}
+.pagination .pag-item:active {
+  background: #9397AD;
+  color: #F3F6FF;
 }
